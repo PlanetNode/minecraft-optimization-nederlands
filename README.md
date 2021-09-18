@@ -42,7 +42,7 @@ Het is belangrijk om te onthouden dat de bovenwereld, de nether en het einde apa
 
 #### network-compression-threshold
 
-Goede startwaarde: 256
+`Goede startwaarde: 256`
 
 Dit staat je toe om een maximum in te stellen voor de grootte van een pakket voordat de server het probeert te comprimeren. Hoger instellen kan wat CPU-bronnen besparen ten koste van bandbreedte, en op -1 zetten schakelt het uit. Hoger instellen kan ook cliënten met tragere netwerkverbindingen schaden. Als je server zich in een netwerk met een proxy bevindt of op dezelfde machine (met minder dan 2 ms ping), zal het uitschakelen (-1) voordelig zijn, aangezien interne netwerksnelheden gewoonlijk het extra ongecomprimeerde verkeer aankunnen.
 
@@ -50,7 +50,7 @@ Dit staat je toe om een maximum in te stellen voor de grootte van een pakket voo
 
 #### use-alternate-keepalive
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Je kunt Purpur's alternatieve keepalive systeem aanzetten, zodat spelers met een slechte verbinding niet zo vaak uitgetimed worden. Heeft bekende incompatibiliteit met TCPShield.
 
@@ -65,7 +65,7 @@ Je kunt Purpur's alternatieve keepalive systeem aanzetten, zodat spelers met een
 
 #### view-distance
 
-Goede startwaarde: 4`
+`Goede startwaarde: 4`
 
 View-distance is de afstand in chunks rond de speler die de server zal aanvinken. In essentie de afstand van de speler waarop dingen zullen gebeuren. Dit is inclusief ovens die smelten, gewassen en jonge boompjes die groeien, etc. Je moet deze waarde instellen in [spigot.yml], omdat het die van [`server.properties`] overschrijft en per wereld kan worden ingesteld. Dit is een optie die je bewust laag wilt zetten, ergens rond `3` of `4`, vanwege het bestaan van `no-tick-view-distance`. No-tick staat spelers toe om meer stukken te laden zonder ze aan te vinken. Dit stelt spelers in staat om verder te kijken zonder dezelfde impact op de prestaties.
 
@@ -73,25 +73,25 @@ View-distance is de afstand in chunks rond de speler die de server zal aanvinken
 
 #### no-tick-view-distance
 
-Goede startwaarde: 7
+`Goede startwaarde: 7`
 
 Deze optie maakt het mogelijk om de maximale afstand in brokken in te stellen die de spelers zullen zien. Dit maakt het mogelijk om een lagere `view-distance` te hebben en spelers toch verder te laten kijken. Het is belangrijk om te weten dat de chunks die verder weg liggen dan de werkelijke `view-distance` niet zullen worden aangevinkt, maar ze zullen wel worden geladen vanuit je opslag, dus ga niet te ver. `10` is in principe het maximum waar je dit op moet zetten. Vanaf nu worden chunks naar de client gestuurd ongeacht hun kijkafstand instelling, dus hogere waardes voor deze optie kunnen problemen veroorzaken voor spelers met langzamere verbindingen.
 
 #### vertraging-bundel-ontlaadt-door
 
-Goede beginwaarde: 10
+`Goede beginwaarde: 10`
 
 Met deze optie kun je instellen hoe lang chunks geladen blijven nadat een speler is vertrokken. Dit helpt om niet constant dezelfde chunks te laden en te lossen als een speler heen en weer beweegt. Te hoge waarden kunnen resulteren in veel te veel chunks die in één keer geladen worden. In gebieden die vaak worden geteleporteerd en geladen, kun je overwegen om het gebied permanent geladen te houden. Dit zal lichter zijn voor je server dan het constant laden en lossen van chunks.
 
 #### max-auto-save-chunks-per-tick
 
-Goede startwaarde: 8
+`Goede startwaarde: 8`
 
 Hiermee kun je het incrementeel opslaan van de wereld vertragen door de taak nog meer over de tijd te spreiden voor een betere gemiddelde prestatie. Je zou dit hoger kunnen zetten dan `8` met meer dan 20-30 spelers. Als het incrementele opslaan niet op tijd kan worden voltooid, zal bukkit automatisch de overgebleven brokken in een keer opslaan en het proces opnieuw beginnen.
 
 #### prevent-moving-into-unloaded-chunks
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Wanneer ingeschakeld, voorkomt dit dat spelers in onbeladen chunks lopen en sync loads veroorzaken die de main thread vertragen en lag veroorzaken. De kans dat een speler in een onbelaste chunk stapt is groter naarmate de no-tick-view-afstand kleiner is.
 
@@ -124,7 +124,7 @@ Met behulp van dit item kunt u grenzen instellen voor het aantal entiteiten van 
 
 #### seed-based-feature-search-loads-chunks
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Hoewel het instellen van dit op `false` de performance zal verbeteren als je `treasure-maps-return-already-discovered` op `false` zet, kan het resulteren in onverwacht gedrag, zoals structuren die soms niet op de plek staan die op de kaart is aangegeven. Zet het aan als je het niet als een probleem ziet.
 
@@ -166,7 +166,7 @@ Deze optie stelt in hoe vaak (in ticks) de server probeert om bepaalde levende w
 
 #### mob-spawn-range
 
-Goede startwaarde: 2
+`Goede startwaarde: 2`
 
 Staat je toe om het bereik (in brokken) te verkleinen van waar mobs zullen spawnen rond de speler. Afhankelijk van de gamemode van je server en het aantal spelers zou je deze waarde kunnen verlagen samen met [bukkit.yml]'s `spawn-limits`. Door dit lager in te stellen zal het lijken alsof er meer mobs om je heen zijn. Dit moet lager zijn dan of gelijk aan je zichtafstand, en nooit groter dan je harde despawn range / 16.
 
@@ -202,13 +202,13 @@ Dit is de afstand in blokken vanaf waar entiteiten zichtbaar zullen zijn. Ze zul
 
 #### teek-inactieve-dorpelingen
 
-Goede startwaarde: false
+`Goede startwaarde: false`
 
 Hiermee kun je bepalen of dorpelingen moeten worden aangevinkt buiten het activeringsbereik. Dit zal ervoor zorgen dat dorpelingen normaal doorgaan en het activeringsbereik negeren. Het uitschakelen hiervan zal de prestaties verbeteren, maar kan verwarrend zijn voor spelers in bepaalde situaties. Dit kan problemen veroorzaken met ijzeren boerderijen en het herbevoorraden van handel.
 
 #### nerf-spawner-mobs
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Je kunt ervoor zorgen dat mobs die gespawned worden door een monster spawner geen AI hebben. Nerfed mobs zullen niets doen. Je kan ze laten springen in water door `spawner-nerfed-mobs-should-jump` te veranderen in `true` in [paper.yml].
 
@@ -227,37 +227,37 @@ Hiermee kun je de entiteit despawn bereiken aanpassen (in blokken). Verlaag deze
 
 #### per-speler-mob-spawns
 
-Goede beginwaarde: true
+`Goede beginwaarde: true`
 
 Deze optie bepaalt of mob spawns rekening moeten houden met hoeveel mobs er al rond de speler zijn. Je kunt hiermee veel problemen omzeilen met betrekking tot mob spawns die inconsistent zijn doordat spelers farms maken die de hele mobcap in beslag nemen. Dit zal een meer singleplayer-achtige spawn ervaring mogelijk maken, waardoor je lagere `spawn-limieten` kunt instellen. Het inschakelen hiervan heeft een klein effect op de prestaties, maar het effect wordt overschaduwd door de verbeteringen in `spawn-limits` die het mogelijk maakt.
 
 #### max-entity-collisions
 
-Goede startwaarde: 2
+`Goede startwaarde: 2`
 
 Overschrijft optie met dezelfde naam in [spigot.yml]. Het laat je beslissen hoeveel botsingen een entiteit in een keer kan verwerken. Waarde van `0` veroorzaakt het onvermogen om andere entiteiten, inclusief spelers, te duwen. Waarde van `2` zou genoeg moeten zijn in de meeste gevallen. Het is de moeite waard om op te merken dat dit maxEntityCramming gamerule nutteloos maakt als zijn waarde hoger is dan de waarde van deze configuratie optie.
 
 #### update-pathfinding-on-block-update
 
-Goede startwaarde: false
+`Goede startwaarde: false`
 
 Het uitschakelen hiervan zal resulteren in minder pathfinding, wat de performance zal verhogen. In sommige gevallen zal dit ervoor zorgen dat mobs meer laggy lijken; Ze zullen gewoon passief hun pad updaten elke 5 ticks (0.25 sec).
 
 #### fix-climbing-bypassing-cramming-rule
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Door dit in te schakelen worden entiteiten die klimmen niet beïnvloed. Dit zal voorkomen dat absurde hoeveelheden mannetjes worden gestapeld in kleine ruimtes zelfs als ze klimmen (spinnen).
 
 #### pantser-stand-tick
 
-Goede beginwaarde: vals
+`Goede beginwaarde: vals`
 
 In de meeste gevallen kun je dit veilig op `valse` zetten. Als je armor stands gebruikt of plugins die hun gedrag aanpassen en je ondervindt problemen, schakel dit dan weer in. Dit zal voorkomen dat pantserstatieven worden geduwd door water of worden beïnvloed door de zwaartekracht.
 
 #### armor-stands-do-collision-entity-lookups
 
-Goede beginwaarde: false
+`Goede beginwaarde: false`
 
 Hier kun je armor stand collisions uitschakelen. Dit zal helpen als je veel armorstands hebt en ze nergens tegenaan wilt laten botsen.
 
@@ -285,19 +285,19 @@ Dit bepaalt hoe vaak gespecificeerde gedragingen en sensoren worden afgevuurd in
 
 #### max-loads-per-projectiel
 
-Goede beginwaarde: 8
+`Goede beginwaarde: 8`
 
 Specificeert het maximum aantal chunks dat een projectiel kan laden tijdens zijn levensduur. Verminderen zal de chunkbelasting door entiteitprojectielen verminderen, maar kan problemen veroorzaken met tridents, enderpearls, enz.
 
 #### max-tick-freq
 
-Goede beginwaarde: 20
+`Goede beginwaarde: 20`
 
 Deze optie bepaalt hoe langzaam entiteiten die het verst van spelers af staan getickt zullen worden. Het verhogen van deze waarde kan de prestaties verbeteren van entiteiten die ver uit het zicht staan, maar kan farms kapot maken of het gedrag van mobs sterk verminderen.
 
 #### activatie-dist-mod
 
-Goede startwaarde: 7
+`Goede startwaarde: 7`
 
 Regelt de gradiënt waarin mobs worden aangevinkt. DAB werkt op een gradiënt in plaats van een harde cutoff zoals EAR. In plaats van entiteiten dichtbij volledig aan te vinken en entiteiten veraf nauwelijks, zal DAB de hoeveelheid van een entiteit die wordt aangevinkt verminderen gebaseerd op het resultaat van deze berekening. Dit verlagen zal DAB dichter bij de spelers activeren, wat de prestatiewinst van DAB verbetert, maar zal invloed hebben op hoe entiteiten met hun omgeving omgaan en kan mob farms kapot maken.
 
@@ -305,31 +305,31 @@ Regelt de gradiënt waarin mobs worden aangevinkt. DAB werkt op een gradiënt in
 
 #### dont-send-useless-entity-packets
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Door deze optie in te schakelen bespaar je bandbreedte door te voorkomen dat de server lege positiewijzigingspakketten verstuurt (standaard verstuurt de server dit pakket voor elke entiteit, zelfs als de entiteit niet is verplaatst). Dit kan problemen veroorzaken met plugins die client-side entiteiten gebruiken.
 
 #### aggressive-towards-villager-when-lagging
 
-Goede startwaarde: false
+`Goede startwaarde: false`
 
 Als je dit inschakelt zullen zombies stoppen met het aanvallen van dorpelingen als de server onder de tps drempel zit die is ingesteld met `lagging-threshold` in [purpur.yml].
 
 #### entiteiten-kunnen-portalen-gebruiken
 
-Goede startwaarde: false
+`Goede startwaarde: false`
 
 Deze optie kan het gebruik van portalen uitschakelen voor alle entiteiten behalve de speler. Dit voorkomt dat entiteiten chunks laden door van wereld te veranderen, wat wordt afgehandeld op de hoofddraad. Dit heeft als neveneffect dat entiteiten niet door portalen kunnen gaan.
 
 #### villager.brain-ticks
 
-Goede startwaarde: 2
+`Goede startwaarde: 2`
 
 Met deze optie kun je instellen hoe vaak (in tikken) de hersenen van een dorpeling (werk en poi) zullen tikken. Hoger dan `3` is bevestigd dat dorpelingen inconsistent/buggy worden.
 
 #### villager.lobotomize
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Lobotomize dorpelingen worden ontdaan van hun AI en zullen alleen om de zoveel tijd hun aanbod aanvullen. Door dit in te schakelen zullen dorpelingen die niet in staat zijn om hun bestemming te vinden, gelobotomiseerd worden. Hen bevrijden zou hen weer moeten lobotomiseren.
 
@@ -352,13 +352,13 @@ Dit bepaalt de afstand tussen de items en exp orbs die worden samengevoegd, waar
 
 #### hopper-overdracht
 
-Goede startwaarde: 8
+`Goede startwaarde: 8`
 
 Tijd in tikken dat hoppers zullen wachten om een item te verplaatsen. Het verhogen van deze tijd zal de performance verbeteren als er veel hoppers op je server zijn, maar zal hopper-gebaseerde klokken en mogelijk item sorteer systemen breken als het te hoog is ingesteld.
 
 #### hopper-check
 
-Goede startwaarde: 8
+`Goede startwaarde: 8`
 
 Tijd in tikken tussen hoppers die controleren op een item boven hen of in de inventaris boven hen. Het verhogen van deze tijd zal de performance verbeteren als er veel hoppers op je server zijn, maar zal hopper-gebaseerde klokken en item sorteer systemen die vertrouwen op waterstromen breken.
 
@@ -378,7 +378,7 @@ Met deze lijst kun je een alternatieve tijd instellen (in ticks) om bepaalde soo
 
 #### use-faster-eigencraft-redstone
 
-Goede beginwaarde: waar`
+`Goede beginwaarde: waar`
 
 Wanneer dit is ingeschakeld, wordt het redstone systeem vervangen door een snellere en alternatieve versie die overbodige blokupdates vermindert, waardoor je server minder werk hoeft te doen. Door dit in te schakelen kun je de prestaties aanzienlijk verbeteren zonder inconsistenties in de gameplay te introduceren. Het inschakelen hiervan zal zelfs sommige redstone inconsistenties van craftbukkit oplossen.
 
@@ -390,49 +390,49 @@ Wanneer dit is ingeschakeld, wordt het redstone systeem vervangen door een snell
 
 #### mob-spawner-tick-rate
 
-Goede startwaarde: 2
+`Goede startwaarde: 2`
 
 Deze optie laat je configureren hoe vaak spawners moeten worden aangevinkt. Hogere waarden betekenen minder vertraging als je veel spawners hebt, maar als je deze te hoog instelt (in verhouding tot de vertraging van je spawners) zal de snelheid waarmee mob spawnt afnemen.
 
 #### optimaliseer-explosies
 
-Goede start waarde: true
+`Goede start waarde: true`
 
 Als je dit op `true` zet wordt het vanilla explosie algoritme vervangen door een sneller algoritme, ten koste van een kleine onnauwkeurigheid bij het berekenen van de explosie schade. Dit is meestal niet merkbaar.
 
 #### enable-treasure-maps
 
-Goede beginwaarde: false
+`Goede beginwaarde: false`
 
 Het genereren van schatkaarten is erg duur en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanille wereldgrens hebt ingesteld.
 
 #### schat-kaarten-terugkeren-al-ontdekt
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 De standaardwaarde van deze optie dwingt de nieuw gegenereerde kaarten om te zoeken naar onontdekte structuren, die meestal buiten je voorgegenereerde terrein liggen. Door dit op true te zetten, kunnen kaarten leiden naar de structuren die eerder ontdekt zijn. Als je dit niet op `true` zet kan het zijn dat de server blijft hangen of crasht bij het genereren van nieuwe schatkaarten.
 
 #### grass-spread-tick-rate
 
-Goede startwaarde: 4`
+`Goede startwaarde: 4`
 
 Tijd in tikken tussen het moment dat de server gras of mycelium probeert te verspreiden. Dit zorgt ervoor dat grote stukken vuil er iets langer over doen om in gras of mycelium te veranderen. Dit instellen op ongeveer `4` zou goed moeten werken als je het wilt verminderen zonder dat de verminderde verspreiding merkbaar is.
 
 #### container-update-tick-rate
 
-Goede startwaarde: 1
+`Goede startwaarde: 1`
 
 Tijd in ticks tussen container updates. Dit verhogen kan helpen als container updates problemen veroorzaken (dit gebeurt zelden), maar maakt het makkelijker voor spelers om desync te ervaren bij interactie met inventories (spook items).
 
 #### non-player-arrow-despawn-rate
 
-Goede startwaarde: 20
+`Goede startwaarde: 20`
 
 Tijd in tikken waarna pijlen afgeschoten door mobs moeten verdwijnen nadat ze iets geraakt hebben. Spelers kunnen deze pijlen toch niet oppakken, dus je kunt dit net zo goed instellen op iets als `20` (1 seconde).
 
 #### creative-pijl-despawn-rate
 
-Goede startwaarde: 20
+`Goede startwaarde: 20`
 
 Tijd in tikken waarna pijlen die door spelers in de creatieve modus zijn afgeschoten moeten verdwijnen nadat ze iets hebben geraakt. Spelers kunnen deze pijlen toch niet oppakken, dus je kunt dit net zo goed instellen op iets als `20` (1 seconde).
 
@@ -440,7 +440,7 @@ Tijd in tikken waarna pijlen die door spelers in de creatieve modus zijn afgesch
 
 #### disable-treasure-searching
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Voorkomt dat dolfijnen structuurzoeken uitvoeren die lijken op schatkaarten
 
@@ -458,19 +458,19 @@ Maakt het mogelijk om de speler te teleporteren naar de spawn als hij buiten de 
 
 #### anti-xray
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Schakel dit in om ertsen te verbergen voor x-rayers. Voor gedetailleerde configuratie van deze functie, zie [Stonar96's aanbevolen instellingen](https://gist.github.com/stonar96/ba18568bd91e5afd590e8038d14e245e). Het inschakelen hiervan zal de prestatie verminderen, maar het is veel efficiënter dan een anti-xray plugin. In de meeste gevallen zal de prestatie-impact te verwaarlozen zijn.
 
 #### remove-corrupt-tile-entities
 
-Goede startwaarde: true
+`Goede startwaarde: true`
 
 Verander dit naar `true` als je console wordt overspoeld met fouten over tile-entiteiten. Dit zal alle tile-entiteiten die de fout veroorzaken verwijderen in plaats van negeren. Als u regelmatig waarschuwingen krijgt over tile entiteiten, onderzoek dan waarom ze breken. Dit is geen oplossing voor het hoofdprobleem.
 
 #### nether-ceiling-void-damage-height
 
-Goede startwaarde: 127
+`Goede startwaarde: 127`
 
 Als deze optie groter is dan `0`, zullen spelers boven het ingestelde y-niveau beschadigd worden alsof ze in de leegte staan. Dit zal voorkomen dat spelers het nether dak gebruiken. De vanille nether is 128 blocks hoog, dus je moet hem waarschijnlijk op `127` zetten. Als je de hoogte van de nether op een of andere manier aanpast, moet je dit instellen op `[jouw_nether_hoogte] - 1`.
 
