@@ -32,7 +32,7 @@ Map pregeneratie is een van de belangrijkste stappen in het verbeteren van een l
 
 Het is belangrijk om te onthouden dat de bovenwereld, de nether en het einde aparte wereldgrenzen hebben die voor elke wereld ingesteld moeten worden. De nether dimensie is 8x kleiner dan de overworld (indien niet aangepast met een datapack), dus als je de grootte verkeerd instelt, kunnen je spelers buiten de wereldgrens terechtkomen!
 
-**Zorg ervoor dat je een vanille wereldgrens instelt (`/worldborder set [radius]`), omdat het bepaalde functionaliteiten beperkt, zoals het opzoekbereik voor schatkaarten dat lag spikes kan veroorzaken.**
+**Zorg ervoor dat je een vanilla wereldgrens instelt (`/worldborder set [radius]`), omdat het bepaalde functionaliteiten beperkt, zoals het opzoekbereik voor schatkaarten dat lag spikes kan veroorzaken.**
 
 # Configuraties
 
@@ -404,7 +404,7 @@ Als je dit op `true` zet wordt het vanilla explosie algoritme vervangen door een
 
 `Goede beginwaarde: false`
 
-Het genereren van schatkaarten is erg duur en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanille wereldgrens hebt ingesteld.
+Het genereren van schatkaarten is erg duur en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanilla wereldgrens hebt ingesteld.
 
 #### treasure-maps-return-already-discovered
 
@@ -472,7 +472,7 @@ Verander dit naar `true` als je console wordt overspoeld met fouten over tile-en
 
 `Goede startwaarde: 127`
 
-Als deze optie groter is dan `0`, zullen spelers boven het ingestelde y-niveau beschadigd worden alsof ze in de leegte staan. Dit zal voorkomen dat spelers het nether dak gebruiken. De vanille nether is 128 blocks hoog, dus je moet hem waarschijnlijk op `127` zetten. Als je de hoogte van de nether op een of andere manier aanpast, moet je dit instellen op `[jouw_nether_hoogte] - 1`.
+Als deze optie groter is dan `0`, zullen spelers boven het ingestelde y-niveau beschadigd worden alsof ze in de leegte staan. Dit zal voorkomen dat spelers het nether dak gebruiken. De vanilla nether is 128 blocks hoog, dus je moet hem waarschijnlijk op `127` zetten. Als je de hoogte van de nether op een of andere manier aanpast, moet je dit instellen op `[jouw_nether_hoogte] - 1`.
 
 ---
 
