@@ -253,7 +253,7 @@ Door dit in te schakelen worden entiteiten die klimmen niet beïnvloed. Dit zal 
 
 `Goede beginwaarde: false`
 
-In de meeste gevallen kun je dit veilig op `false` zetten. Als je armor stands gebruikt of plugins die hun gedrag aanpassen en je ondervindt problemen, schakel dit dan weer in. Dit zal voorkomen dat pantserstatieven worden geduwd door water of worden beïnvloed door de zwaartekracht.
+In de meeste gevallen kun je dit veilig op `false` zetten. Als je armor stands gebruikt of plugins die hun gedrag aanpassen en je ondervindt problemen, schakel dit dan weer in. Dit zal voorkomen dat armor stands worden geduwd door water of worden beïnvloed door de zwaartekracht.
 
 #### armor-stands-do-collision-entity-lookups
 
