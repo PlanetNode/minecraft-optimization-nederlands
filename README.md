@@ -1,6 +1,6 @@
 # Minecraft server optimalisatie gids
 
-Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of alles lager dan Paper) - ga naar je server.properties en verander `sync-chunk-writes` in `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn vorken, maar op server implementaties daarvoor moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
+Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of alles lager dan Paper) - ga naar je server.properties en verander `sync-chunk-writes` naar `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn afgeleiden, maar op andere server implementaties daarvoor moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
 
 Handleiding voor versie 1.17. Sommige dingen kunnen nog van toepassing zijn op 1.15 - 1.16.
 
