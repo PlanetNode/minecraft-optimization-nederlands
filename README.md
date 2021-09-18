@@ -16,8 +16,8 @@ Je keuze van server software kan een groot verschil maken in prestatie en API mo
 
 Aanbevolen top picks:
 * [Paper](https://github.com/PaperMC/Paper) - De meest populaire server software die gericht is op het verbeteren van de prestaties terwijl het gameplay en mechanica inconsistenties repareert.
-* [Airplane](https://github.com/Technove/Airplane) - Paper vork die tot doel heeft de server prestaties verder te verbeteren.
-* [Purpur](https://github.com/pl3xgaming/Purpur) - Airplane vork gericht op functies en de vrijheid van aanpassing.
+* [Airplane](https://github.com/Technove/Airplane) - Paper afgeleiden die tot doel heeft de server prestaties verder te verbeteren.
+* [Purpur](https://github.com/pl3xgaming/Purpur) - Airplane/Paper afgeleiden gericht op functies en de vrijheid van aanpassing.
 
 Je moet wegblijven van:
 * Yatopia & Sugarcane - "De gecombineerde kracht van Paper Forks voor maximale instabiliteit en unmaintainablity!" - [KennyTV's lijst van schaamte](https://github.com/KennyTV/list-of-shame). Niets meer over te zeggen. (Bovendien is het project stopgezet).
