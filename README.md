@@ -378,7 +378,7 @@ Met deze lijst kun je een alternatieve tijd instellen (in ticks) om bepaalde soo
 
 #### use-faster-eigencraft-redstone
 
-`Goede beginwaarde: waar`
+`Goede beginwaarde: true`
 
 Wanneer dit is ingeschakeld, wordt het redstone systeem vervangen door een snellere en alternatieve versie die overbodige blokupdates vermindert, waardoor je server minder werk hoeft te doen. Door dit in te schakelen kun je de prestaties aanzienlijk verbeteren zonder inconsistenties in de gameplay te introduceren. Het inschakelen hiervan zal zelfs sommige redstone inconsistenties van craftbukkit oplossen.
 
@@ -479,7 +479,7 @@ Als deze optie groter is dan `0`, zullen spelers boven het ingestelde y-niveau b
 # Java opstartvlaggen
 [Vanilla Minecraft en Minecraft server software in versie 1.17 vereist Java 16 of hoger](https://papermc.io/forums/t/java-16-mc-1-17-and-paper/5615). Oracle heeft hun licenties veranderd, en er is niet langer een dwingende reden om je java van hen te krijgen. Aanbevolen verkopers zijn [Amazon Corretto](https://aws.amazon.com/corretto/) en [Adoptium](https://adoptium.net/). Alternatieve JVM implementaties zoals OpenJ9 of GraalVM kunnen werken, maar ze worden niet ondersteund door papier en staan erom bekend dat ze problemen veroorzaken, daarom worden ze momenteel niet aanbevolen.
 
-Je vuilnisman kan geconfigureerd worden om vertragingspieken veroorzaakt door grote vuilnisman taken te verminderen. Je kunt opstartvlaggen vinden die geoptimaliseerd zijn voor Minecraft servers [hier](https://mcflags.emc.gs/) [`SOG`]. Houd in gedachten dat deze aanbeveling niet zal werken op alternatieve jvm implementaties.
+Je garbage collector kan geconfigureerd worden om vertragingspieken veroorzaakt door grote garbage collector taken te verminderen. Je kunt opstartvlaggen vinden die geoptimaliseerd zijn voor Minecraft servers [hier](https://mcflags.emc.gs/) [`SOG`]. Houd in gedachten dat deze aanbeveling niet zal werken op alternatieve jvm implementaties.
 
 # Linux CPU schaling 
 Sommige hosts kunnen machines leveren die in "PowerSave" mode draaien. Dit kan resulteren in bijna 25% lagere kloksnelheden en dus veel lagere single threaded prestaties. Dit kan leiden tot veel slechtere prestaties dan wanneer de CPU-schaling op prestatiemodus wordt gezet. Merk op dat dit mogelijk niet beschikbaar is voor VPS.
