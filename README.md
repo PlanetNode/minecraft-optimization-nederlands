@@ -1,15 +1,13 @@
 # Minecraft server optimalisatie gids
 
-Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of alles lager dan Paper) - ga naar je server.properties en verander `sync-chunk-writes` naar `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn afgeleiden, maar op andere server implementaties daarvoor moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
+Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of alles lager dan Paper) - ga naar je server.properties en verander `sync-chunk-writes` naar `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn afgeleiden, maar op andere server implementaties moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
 
 Handleiding voor versie 1.17. Sommige dingen kunnen nog van toepassing zijn op 1.15 - 1.16.
 
 Gebaseerd op [deze gids](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) en andere bronnen (ze zijn allemaal gelinkt in de gids wanneer ze relevant zijn).
 
-Gebruik de inhoudsopgave hierboven (naast `README.md`) om gemakkelijk door deze gids te navigeren.
-
 # Intro
-Er zal nooit een gids zijn die je perfecte resultaten zal geven. Elke server heeft zijn eigen behoeften en grenzen aan hoeveel je kunt of wilt opofferen. Knutselen aan de opties om ze af te stemmen op de behoeften van uw server is waar het allemaal om draait. Deze gids is alleen bedoeld om u te helpen begrijpen welke opties invloed hebben op de prestaties en wat ze precies veranderen. Als je denkt dat je onnauwkeurige informatie hebt gevonden in deze gids, ben je vrij om een issue te openen of een pull request op te zetten.
+Er zal nooit een gids zijn die je perfecte resultaten geeft. Elke server heeft zijn eigen behoeften en grenzen aan hoeveel je kunt of wilt opofferen. Knutselen aan de opties om ze af te stemmen op de behoeften van je server is waar het allemaal om draait. Deze gids is alleen bedoeld om u te helpen begrijpen welke opties invloed hebben op de prestaties en wat ze precies veranderen.
 
 # Voorbereidingen
 
