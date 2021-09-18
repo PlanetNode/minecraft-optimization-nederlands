@@ -77,7 +77,7 @@ View-distance is de afstand in chunks rond de speler die de server zal aanvinken
 
 Deze optie maakt het mogelijk om de maximale afstand in brokken in te stellen die de spelers zullen zien. Dit maakt het mogelijk om een lagere `view-distance` te hebben en spelers toch verder te laten kijken. Het is belangrijk om te weten dat de chunks die verder weg liggen dan de werkelijke `view-distance` niet zullen worden aangevinkt, maar ze zullen wel worden geladen vanuit je opslag, dus ga niet te ver. `10` is in principe het maximum waar je dit op moet zetten. Vanaf nu worden chunks naar de client gestuurd ongeacht hun kijkafstand instelling, dus hogere waardes voor deze optie kunnen problemen veroorzaken voor spelers met langzamere verbindingen.
 
-#### vertraging-bundel-ontlaadt-door
+#### delay-chunk-unloads-by
 
 `Goede beginwaarde: 10`
 
@@ -95,27 +95,27 @@ Hiermee kun je het incrementeel opslaan van de wereld vertragen door de taak nog
 
 Wanneer ingeschakeld, voorkomt dit dat spelers in onbeladen chunks lopen en sync loads veroorzaken die de main thread vertragen en lag veroorzaken. De kans dat een speler in een onbelaste chunk stapt is groter naarmate de no-tick-view-afstand kleiner is.
 
-#### entiteit-per-chunk-save-limit
+#### entity-per-chunk-save-limit
 
 ```
 Goede beginwaarden:
 
-      ervaring_orb: 16
-      pijl: 16
+      experience_orb: 16
+      arrow: 16
       dragon_fireball: 3
-      ei: 8
+      egg: 8
       ender_pearl: 8
-      oog_van_ender: 8
-      vuurbal: 8
-      kleine_vuurbal: 8
-      vuurwerk_raket: 8
-      brouwsel: 8
-      lama_spuug: 3
+      eye_of_ender: 8
+      fireball: 8
+      small_fireball: 8
+      firework_rocket: 8
+      potion: 8
+      llama_spit: 3
       shulker_bullet: 8
-      sneeuwbal: 8
+      snowball: 8
       spectral_arrow: 16
-      ervaring_fles: 3
-      drietand: 16
+      experience_bottle: 3
+      trident: 16
       wither_skull: 4
       area_effect_cloud: 8
 ```
@@ -140,24 +140,24 @@ Hoewel het instellen van dit op `false` de performance zal verbeteren als je `tr
 Goede start waarden:
 
     monsters: 20
-    dieren: 5
-    water-dieren: 2
-    water-omgeving: 2
-    omgeving: 1
+    animals: 5
+    water-animals: 2
+    water-ambient: 2
+    ambient: 1
 ```
 
 De wiskunde van het limiteren van mobs is `[playercount] * [limit]`, waar "playercount" het huidige aantal spelers op de server is. Logisch, hoe kleiner de aantallen zijn, hoe minder mobs je zult zien. `per-speler-mob-spawn` past hier een extra limiet op toe, om ervoor te zorgen dat mobs gelijk verdeeld worden tussen spelers. Dit verminderen is een tweesnijdend zwaard; ja, je server heeft minder werk te doen, maar in sommige gamemodes zijn natuurlijk spawnende mobs een groot deel van de gameplay. Je kunt zo laag gaan als 20 of minder als je `mob-spawn-range` goed instelt. Door `mob-spawn-range` lager in te stellen zal het lijken alsof er meer mobs rond elke speler zijn. Als je Paper gebruikt, kun je mob-limieten per wereld instellen in [`paper.yml`].
 
-#### tikken-per
+#### ticks-per
 
 ```
 Goede beginwaarden:
 
     monster-spawn: 10
-    dieren-koninklijken: 400
-    water-gooien: 400
-    water-ambient-gooien: 400
-    omgevings-gooien: 400
+    animal-spawns: 400
+    water-spawns: 400
+    water-ambient-spawns: 400
+    ambient-spawns: 400
 ```
 
 Deze optie stelt in hoe vaak (in ticks) de server probeert om bepaalde levende wezens te spawnen. Water/ambient mobs hoeven niet elke tick te spawnen omdat ze meestal niet zo snel gedood worden. Wat monsters betreft: De tijd tussen spawns lichtjes verhogen zou geen invloed mogen hebben op de spawn rates, zelfs niet in mob farms. In de meeste gevallen zouden alle waardes onder deze optie hoger moeten zijn dan `1`. Door dit hoger te zetten kan je server ook beter omgaan met gebieden waar mob spawn is uitgeschakeld.
@@ -170,37 +170,37 @@ Deze optie stelt in hoe vaak (in ticks) de server probeert om bepaalde levende w
 
 Staat je toe om het bereik (in brokken) te verkleinen van waar mobs zullen spawnen rond de speler. Afhankelijk van de gamemode van je server en het aantal spelers zou je deze waarde kunnen verlagen samen met [bukkit.yml]'s `spawn-limits`. Door dit lager in te stellen zal het lijken alsof er meer mobs om je heen zijn. Dit moet lager zijn dan of gelijk aan je zichtafstand, en nooit groter dan je harde despawn range / 16.
 
-#### entiteit-activatie-bereik
+#### entity-activation-range
 
 ```
 Goede beginwaarden:
 
-      dieren: 16
+      animals: 16
       monsters: 24
-      overvallers: 48
-      diversen: 8
+      raiders: 48
+      misc: 8
       water: 8
-      dorpelingen: 16
-      vliegende monsters: 48
+      villagers: 16
+      flying-monsters: 48
 ```
 
 Je kan instellen hoe ver een entiteit van de speler moet zijn om te tikken (dingen te doen). Het verlagen van deze waarden helpt de prestaties, maar kan resulteren in onresponsieve mobs totdat de speler echt dicht bij ze komt. Dit te ver verlagen kan bepaalde mob farms kapot maken; iron farms zijn het meest voorkomende slachtoffer.
 
-#### entiteit-tracking-bereik
+#### entity-tracking-range
 
 ```
 Goede beginwaarden:
 
-      spelers: 48
-      dieren: 48
+      players: 48
+      animals: 48
       monsters: 48
-      diversen: 32
-      andere: 64
+      misc: 32
+      other: 64
 ```
 
 Dit is de afstand in blokken vanaf waar entiteiten zichtbaar zullen zijn. Ze zullen alleen niet naar spelers worden gestuurd. Als je dit te laag instelt kan het lijken of een entiteit uit het niets verschijnt in de buurt van een speler. In de meeste gevallen zou dit hoger moeten zijn dan je `entity-activatie-range`.
 
-#### teek-inactieve-dorpelingen
+#### tick-inactive-villagers
 
 `Goede startwaarde: false`
 
@@ -219,13 +219,13 @@ Je kunt ervoor zorgen dat mobs die gespawned worden door een monster spawner gee
 ```
 Goede start waarden:
 
-      zacht: 30
+      soft: 30
       hard: 56
 ```
 
 Hiermee kun je de entiteit despawn bereiken aanpassen (in blokken). Verlaag deze waarden om de mobs die ver weg zijn van de speler sneller te verwijderen. Je zou de soft range rond de 30 moeten houden en de hard range iets meer dan je eigenlijke view-distance, zodat mobs niet meteen despawnen als de speler net voorbij het punt gaat waar een chunk geladen wordt (dit werkt goed door de `delay-chunk-unloads-by` in [paper.yml]). Wanneer een mob buiten het harde bereik is, zal deze direct despawned worden. Wanneer tussen de zachte en harde range, zal het een willekeurige kans hebben om te despawnen. Je harde bereik moet groter zijn dan je zachte bereik. Je moet dit aanpassen aan je zichtafstand door `(zichtafstand * 16) + 8` te gebruiken. Dit houdt gedeeltelijk rekening met chunks die nog niet uitgeladen zijn nadat de speler ze bezocht heeft.
 
-#### per-speler-mob-spawns
+#### per-player-mob-spawns
 
 `Goede beginwaarde: true`
 
@@ -249,11 +249,11 @@ Het uitschakelen hiervan zal resulteren in minder pathfinding, wat de performanc
 
 Door dit in te schakelen worden entiteiten die klimmen niet beïnvloed. Dit zal voorkomen dat absurde hoeveelheden mannetjes worden gestapeld in kleine ruimtes zelfs als ze klimmen (spinnen).
 
-#### pantser-stand-tick
+#### armor-stands-tick
 
-`Goede beginwaarde: vals`
+`Goede beginwaarde: false`
 
-In de meeste gevallen kun je dit veilig op `valse` zetten. Als je armor stands gebruikt of plugins die hun gedrag aanpassen en je ondervindt problemen, schakel dit dan weer in. Dit zal voorkomen dat pantserstatieven worden geduwd door water of worden beïnvloed door de zwaartekracht.
+In de meeste gevallen kun je dit veilig op `false` zetten. Als je armor stands gebruikt of plugins die hun gedrag aanpassen en je ondervindt problemen, schakel dit dan weer in. Dit zal voorkomen dat pantserstatieven worden geduwd door water of worden beïnvloed door de zwaartekracht.
 
 #### armor-stands-do-collision-entity-lookups
 
@@ -269,21 +269,21 @@ Goede beginwaarden:
       sensor:
         villager:
           secondarypoisensor: 80
-          dichtstbijzijnde beddensensor: 80
-          dorpsbewonerbabysensor: 40
-          spelersensor: 40
-          dichtstbijzijnde woonentiteit-sensor: 40
-      gedrag:
-        dorpeling:
+          nearestbedsensor: 80
+          villagerbabiessensor: 40
+          playersensor: 40
+          nearestlivingentitysensor: 40
+      behavior:
+        villager:
           validatenearbypoi: 60
-          verwervenpoi: 120
+          acquirepoi: 120
 ```
 
 Dit bepaalt hoe vaak gespecificeerde gedragingen en sensoren worden afgevuurd in tikken. `acquirepoi` voor dorpelingen schijnt het zwaarste gedrag te zijn, dus is het sterk verhoogd. Verlaag het in het geval van problemen met dorpelingen die hun weg niet kunnen vinden.
 
 ### [airplane.yml]
 
-#### max-loads-per-projectiel
+#### max-loads-per-projectile
 
 `Goede beginwaarde: 8`
 
@@ -295,7 +295,7 @@ Specificeert het maximum aantal chunks dat een projectiel kan laden tijdens zijn
 
 Deze optie bepaalt hoe langzaam entiteiten die het verst van spelers af staan getickt zullen worden. Het verhogen van deze waarde kan de prestaties verbeteren van entiteiten die ver uit het zicht staan, maar kan farms kapot maken of het gedrag van mobs sterk verminderen.
 
-#### activatie-dist-mod
+#### activation-dist-mod
 
 `Goede startwaarde: 7`
 
@@ -315,7 +315,7 @@ Door deze optie in te schakelen bespaar je bandbreedte door te voorkomen dat de 
 
 Als je dit inschakelt zullen zombies stoppen met het aanvallen van dorpelingen als de server onder de tps drempel zit die is ingesteld met `lagging-threshold` in [purpur.yml].
 
-#### entiteiten-kunnen-portalen-gebruiken
+#### entities-can-use-portals
 
 `Goede startwaarde: false`
 
@@ -350,7 +350,7 @@ Goede start waarden:
 
 Dit bepaalt de afstand tussen de items en exp orbs die worden samengevoegd, waardoor er minder items op de grond tikken. Als je dit te hoog instelt zal dit leiden tot de illusie dat items of exp orbs verdwijnen als ze samengevoegd worden. Als je dit te hoog instelt, zullen sommige boerderijen kapot gaan, en zullen items door blokken kunnen teleporteren. Er worden geen controles uitgevoerd om te voorkomen dat items door muren heen samensmelten. Exp wordt alleen samengevoegd bij het aanmaken.
 
-#### hopper-overdracht
+#### hopper-transfer
 
 `Goede startwaarde: 8`
 
@@ -369,7 +369,7 @@ Tijd in tikken tussen hoppers die controleren op een item boven hen of in de inv
 ```
 Goede start waarden:
 
-      ingeschakeld: waar
+      enabled: true
       items:
           COBBLESTONE: 300
 ```
@@ -394,7 +394,7 @@ Wanneer dit is ingeschakeld, wordt het redstone systeem vervangen door een snell
 
 Deze optie laat je configureren hoe vaak spawners moeten worden aangevinkt. Hogere waarden betekenen minder vertraging als je veel spawners hebt, maar als je deze te hoog instelt (in verhouding tot de vertraging van je spawners) zal de snelheid waarmee mob spawnt afnemen.
 
-#### optimaliseer-explosies
+#### optimize-explosions
 
 `Goede start waarde: true`
 
@@ -406,7 +406,7 @@ Als je dit op `true` zet wordt het vanilla explosie algoritme vervangen door een
 
 Het genereren van schatkaarten is erg duur en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanille wereldgrens hebt ingesteld.
 
-#### schat-kaarten-terugkeren-al-ontdekt
+#### treasure-maps-return-already-discovered
 
 `Goede startwaarde: true`
 
@@ -430,7 +430,7 @@ Tijd in ticks tussen container updates. Dit verhogen kan helpen als container up
 
 Tijd in tikken waarna pijlen afgeschoten door mobs moeten verdwijnen nadat ze iets geraakt hebben. Spelers kunnen deze pijlen toch niet oppakken, dus je kunt dit net zo goed instellen op iets als `20` (1 seconde).
 
-#### creative-pijl-despawn-rate
+#### creative-arrow-despawn-rate
 
 `Goede startwaarde: 20`
 
