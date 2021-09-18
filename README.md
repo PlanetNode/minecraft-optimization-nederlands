@@ -1,42 +1,42 @@
-# Minecraft server optimization guide
+# Minecraft server optimalisatie gids
 
-Note for users that are on vanilla, Fabric or Spigot (or anything below Paper) - go to your server.properties and change `sync-chunk-writes` to `false`. This option is force disabled on Paper and its forks, but on server implementations before that you need to switch this off manually. This allows the server to save chunks off the main thread, lessening the load on the main tick loop.
+Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of iets lager dan Paper) - ga naar je server.properties en verander `sync-chunk-writes` in `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn vorken, maar op server implementaties daarvoor moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
 
-Guide for version 1.17. Some things may still apply on 1.15 - 1.16.
+Handleiding voor versie 1.17. Sommige dingen kunnen nog van toepassing zijn op 1.15 - 1.16.
 
-Based on [this guide](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) and other sources (all of them are linked throughout the guide when relevant).
+Gebaseerd op [deze gids](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) en andere bronnen (ze zijn allemaal gelinkt in de gids wanneer ze relevant zijn).
 
-Use the table of contents located above (next to `README.md`) to easily navigate throughout this guide.
+Gebruik de inhoudsopgave hierboven (naast `README.md`) om gemakkelijk door deze gids te navigeren.
 
 # Intro
-There will never be a guide that will give you perfect results. Each server has their own needs and limits on how much you can or are willing to sacrifice. Tinkering around with the options to fine tune them to your servers needs is what it's all about. This guide only aims to help you understand what options have impact on performance and what exactly they change. If you think you found inaccurate information within this guide, you're free to open an issue or set up a pull request.
+Er zal nooit een gids zijn die je perfecte resultaten zal geven. Elke server heeft zijn eigen behoeften en grenzen aan hoeveel je kunt of wilt opofferen. Knutselen aan de opties om ze af te stemmen op de behoeften van uw server is waar het allemaal om draait. Deze gids is alleen bedoeld om u te helpen begrijpen welke opties invloed hebben op de prestaties en wat ze precies veranderen. Als je denkt dat je onnauwkeurige informatie hebt gevonden in deze gids, ben je vrij om een issue te openen of een pull request op te zetten.
 
-# Preparations
+# Voorbereidingen
 
 ## Server JAR
-Your choice of server software can make a huge difference in performance and API possibilities. There are currently multiple viable popular server JARs, but there are also a few that you should stay away from for various reasons.
+Je keuze van server software kan een groot verschil maken in prestatie en API mogelijkheden. Er zijn op dit moment meerdere levensvatbare populaire server JARs, maar er zijn er ook een paar waar je om verschillende redenen beter weg van kunt blijven.
 
-Recommended top picks:
-* [Paper](https://github.com/PaperMC/Paper) - The most popular server software that aims to improve performance while fixing gameplay and mechanics inconsistencies.
-* [Airplane](https://github.com/Technove/Airplane) - Paper fork that aims to further improve server performance.
-* [Purpur](https://github.com/pl3xgaming/Purpur) - Airplane fork focused on features and the freedom of customization.
+Aanbevolen top picks:
+* [Paper](https://github.com/PaperMC/Paper) - De meest populaire server software die gericht is op het verbeteren van de prestaties terwijl het gameplay en mechanica inconsistenties repareert.
+* [Airplane](https://github.com/Technove/Airplane) - Paper vork die tot doel heeft de server prestaties verder te verbeteren.
+* [Purpur](https://github.com/pl3xgaming/Purpur) - Airplane vork gericht op functies en de vrijheid van aanpassing.
 
-You should stay away from:
-* Yatopia & Sugarcane - "The combined power of Paper forks for maximum instability and unmaintainablity!" - [KennyTV's list of shame](https://github.com/KennyTV/list-of-shame). Nothing more to be said. (Moreover, the project has been discontinued.)
-* Mohist - "Mohist is programmed to be malicious, game-breaking, and very unstable!" - [Reasons why you shouldn't use it](https://essentialsx.net/do-not-use-mohist.html)
-* Any paid server JAR that claims async anything - 99.99% chance of being a scam.
-* Bukkit/CraftBukkit/Spigot - Extremely outdated in terms of performance compared to other server software you have access to.
-* Any plugin/software that enables/disables/reloads plugins on runtime. See [this section](#plugins-enablingdisabling-other-plugins) to understand why.
-* Many forks further downstream from Airplane or Purpur will encounter instability and other issues. If you're seeking more performance gains, optimize your server or invest in a personal private fork.
+Je moet wegblijven van:
+* Yatopia & Sugarcane - "De gecombineerde kracht van Paper Forks voor maximale instabiliteit en unmaintainablity!" - [KennyTV's lijst van schaamte](https://github.com/KennyTV/list-of-shame). Niets meer over te zeggen. (Bovendien is het project stopgezet).
+* Mohist - "Mohist is geprogrammeerd om kwaadaardig te zijn, spelbrekend, en zeer onstabiel!" - [Redenen waarom je het niet zou moeten gebruiken](https://essentialsx.net/do-not-use-mohist.html)
+* Elke betaalde server JAR die async claimt - 99.99% kans dat het oplichterij is.
+* Bukkit/CraftBukkit/Spigot - Extreem verouderd in termen van performance vergeleken met andere server software waar je toegang tot hebt.
+* Elke plugin/software die plugins inschakelt/uitschakelt/laadt op runtime. Zie [deze sectie](#plugins-enablingdisabling-other-plugins) om te begrijpen waarom.
+* Veel forks verder stroomafwaarts van Airplane of Purpur zullen instabiliteit en andere problemen tegenkomen. Als u op zoek bent naar meer prestatiewinst, optimaliseer dan uw server of investeer in een persoonlijke private fork.
 
 ## Map pregen
-Map pregeneration is one of the most important steps in improving a low-budget server. This helps out servers that are hosted on a shared CPU/single core node the most, since they can't fully utilize async chunk loading. You can use a plugin such as [Chunky](https://github.com/pop4959/Chunky) to pregenerate the world. Make sure to set up a world border so your players don't generate new chunks! Note that pregenning can sometimes take hours depending on the radius you set in the pregen plugin.
+Map pregeneratie is een van de belangrijkste stappen in het verbeteren van een low-budget server. Dit helpt servers die gehost worden op een gedeelde CPU/single core node het meest, omdat ze niet volledig gebruik kunnen maken van async chunk loading. Je kunt een plugin zoals [Chunky](https://github.com/pop4959/Chunky) gebruiken om de wereld voor te genereren. Zorg ervoor dat je een wereldgrens instelt zodat je spelers geen nieuwe chunks genereren! Merk op dat het pregennen soms uren kan duren, afhankelijk van de radius die je instelt in de pregen plugin.
 
-It's key to remember that the overworld, nether and the end have separate world borders that need to be set up for each world. The nether dimension is 8x smaller than the overworld (if not modified with a datapack), so if you set the size wrong your players might end up outside of the world border!
+Het is belangrijk om te onthouden dat de bovenwereld, de nether en het einde aparte wereldgrenzen hebben die voor elke wereld ingesteld moeten worden. De nether dimensie is 8x kleiner dan de overworld (indien niet aangepast met een datapack), dus als je de grootte verkeerd instelt, kunnen je spelers buiten de wereldgrens terechtkomen!
 
-**Make sure to set up a vanilla world border (`/worldborder set [radius]`), as it limits certain functionalities such as lookup range for treasure maps that can cause lag spikes.**
+**Zorg ervoor dat je een vanille wereldgrens instelt (`/worldborder set [radius]`), omdat het bepaalde functionaliteiten beperkt, zoals het opzoekbereik voor schatkaarten dat lag spikes kan veroorzaken.**
 
-# Configurations
+# Configuraties
 
 ## Networking
 
@@ -44,19 +44,19 @@ It's key to remember that the overworld, nether and the end have separate world 
 
 #### network-compression-threshold
 
-`Good starting value: 256`
+Goede startwaarde: 256
 
-This allows you to set the cap for the size of a packet before the server attempts to compress it. Setting it higher can save some CPU resources at the cost of bandwidth, and setting it to -1 disables it. Setting this higher may also hurt clients with slower network connections. If your server is in a network with a proxy or on the same machine (with less than 2 ms ping), disabling this (-1) will be beneficial, since internal network speeds can usually handle the additional uncompressed traffic.
+Dit staat je toe om een maximum in te stellen voor de grootte van een pakket voordat de server het probeert te comprimeren. Hoger instellen kan wat CPU-bronnen besparen ten koste van bandbreedte, en op -1 zetten schakelt het uit. Hoger instellen kan ook cliënten met tragere netwerkverbindingen schaden. Als je server zich in een netwerk met een proxy bevindt of op dezelfde machine (met minder dan 2 ms ping), zal het uitschakelen (-1) voordelig zijn, aangezien interne netwerksnelheden gewoonlijk het extra ongecomprimeerde verkeer aankunnen.
 
 ### [purpur.yml]
 
 #### use-alternate-keepalive
 
-`Good starting value: true`
+Goede startwaarde: true
 
-You can enable Purpur's alternate keepalive system so players with bad connection don't get timed out as often. Has known incompatibility with TCPShield.
+Je kunt Purpur's alternatieve keepalive systeem aanzetten, zodat spelers met een slechte verbinding niet zo vaak uitgetimed worden. Heeft bekende incompatibiliteit met TCPShield.
 
-> Enabling this sends a keepalive packet once per second to a player, and only kicks for timeout if none of them were responded to in 30 seconds. Responding to any of them in any order will keep the player connected. AKA, it won't kick your players because 1 packet gets dropped somewhere along the lines  
+> Het inschakelen hiervan stuurt een keer per seconde een keepalive pakket naar een speler, en kopt alleen voor timeout als er niet op gereageerd is binnen 30 seconden. Reageren op elk van deze in elke volgorde zal de speler verbonden houden. AKA, het zal je spelers niet kicken omdat 1 pakket ergens langs de lijnen is gevallen  
 ~ https://purpur.pl3x.net/docs/Configuration/#use-alternate-keepalive
 
 ---
@@ -67,68 +67,68 @@ You can enable Purpur's alternate keepalive system so players with bad connectio
 
 #### view-distance
 
-`Good starting value: 4`
+Goede startwaarde: 4`
 
-View-distance is distance in chunks around the player that the server will tick. Essentially the distance from the player that things will happen. This includes furnaces smelting, crops and saplings growing, etc. You should set this value in [spigot.yml], as it overwrites the one from [`server.properties`] and can be set per-world. This is an option you want to purposefully set low, somewhere around `3` or `4`, because of the existence of `no-tick-view-distance`. No-tick allows players to load more chunks without ticking them. This effectively allows players to see further without the same performance impacts.
+View-distance is de afstand in chunks rond de speler die de server zal aanvinken. In essentie de afstand van de speler waarop dingen zullen gebeuren. Dit is inclusief ovens die smelten, gewassen en jonge boompjes die groeien, etc. Je moet deze waarde instellen in [spigot.yml], omdat het die van [`server.properties`] overschrijft en per wereld kan worden ingesteld. Dit is een optie die je bewust laag wilt zetten, ergens rond `3` of `4`, vanwege het bestaan van `no-tick-view-distance`. No-tick staat spelers toe om meer stukken te laden zonder ze aan te vinken. Dit stelt spelers in staat om verder te kijken zonder dezelfde impact op de prestaties.
 
 ### [paper.yml]
 
 #### no-tick-view-distance
 
-`Good starting value: 7`
+Goede startwaarde: 7
 
-This option allows you to set the maximum distance in chunks that the players will see. This enables you to have lower `view-distance` and still let players see further. It's important to know that while the chunks beyond actual `view-distance` won't tick, they will still load from your storage, so don't go overboard. `10` is basically maximum of what you should set this to. As of now chunks are sent to the client regardless of their view distance setting, so going on higher values for this option can cause issues for players with slower connections.
+Deze optie maakt het mogelijk om de maximale afstand in brokken in te stellen die de spelers zullen zien. Dit maakt het mogelijk om een lagere `view-distance` te hebben en spelers toch verder te laten kijken. Het is belangrijk om te weten dat de chunks die verder weg liggen dan de werkelijke `view-distance` niet zullen worden aangevinkt, maar ze zullen wel worden geladen vanuit je opslag, dus ga niet te ver. `10` is in principe het maximum waar je dit op moet zetten. Vanaf nu worden chunks naar de client gestuurd ongeacht hun kijkafstand instelling, dus hogere waardes voor deze optie kunnen problemen veroorzaken voor spelers met langzamere verbindingen.
 
-#### delay-chunk-unloads-by
+#### vertraging-bundel-ontlaadt-door
 
-`Good starting value: 10`
+Goede beginwaarde: 10
 
-This option allows you to configure how long chunks will stay loaded after a player leaves. This helps to not constantly load and unload the same chunks when a player moves back and forth. Too high values can result in way too many chunks being loaded at once. In areas that are frequently teleported to and loaded, consider keeping the area permanently loaded. This will be lighter for your server than constantly loading and unloading chunks.
+Met deze optie kun je instellen hoe lang chunks geladen blijven nadat een speler is vertrokken. Dit helpt om niet constant dezelfde chunks te laden en te lossen als een speler heen en weer beweegt. Te hoge waarden kunnen resulteren in veel te veel chunks die in één keer geladen worden. In gebieden die vaak worden geteleporteerd en geladen, kun je overwegen om het gebied permanent geladen te houden. Dit zal lichter zijn voor je server dan het constant laden en lossen van chunks.
 
 #### max-auto-save-chunks-per-tick
 
-`Good starting value: 8`
+Goede startwaarde: 8
 
-Lets you slow down incremental world saving by spreading the task over time even more for better average performance. You might want to set this higher than `8` with more than 20-30 players. If incremental save can't finish in time then bukkit will automatically save leftover chunks at once and begin the process again.
+Hiermee kun je het incrementeel opslaan van de wereld vertragen door de taak nog meer over de tijd te spreiden voor een betere gemiddelde prestatie. Je zou dit hoger kunnen zetten dan `8` met meer dan 20-30 spelers. Als het incrementele opslaan niet op tijd kan worden voltooid, zal bukkit automatisch de overgebleven brokken in een keer opslaan en het proces opnieuw beginnen.
 
 #### prevent-moving-into-unloaded-chunks
 
-`Good starting value: true`
+Goede startwaarde: true
 
-When enabled, prevents players from moving into unloaded chunks and causing sync loads that bog down the main thread causing lag. The probability of a player stumbling into an unloaded chunk is higher the lower your no-tick-view-distance is.
+Wanneer ingeschakeld, voorkomt dit dat spelers in onbeladen chunks lopen en sync loads veroorzaken die de main thread vertragen en lag veroorzaken. De kans dat een speler in een onbelaste chunk stapt is groter naarmate de no-tick-view-afstand kleiner is.
 
-#### entity-per-chunk-save-limit
+#### entiteit-per-chunk-save-limit
 
 ```
-Good starting values:
+Goede beginwaarden:
 
-      experience_orb: 16
-      arrow: 16
+      ervaring_orb: 16
+      pijl: 16
       dragon_fireball: 3
-      egg: 8
+      ei: 8
       ender_pearl: 8
-      eye_of_ender: 8
-      fireball: 8
-      small_fireball: 8
-      firework_rocket: 8
-      potion: 8
-      llama_spit: 3
+      oog_van_ender: 8
+      vuurbal: 8
+      kleine_vuurbal: 8
+      vuurwerk_raket: 8
+      brouwsel: 8
+      lama_spuug: 3
       shulker_bullet: 8
-      snowball: 8
+      sneeuwbal: 8
       spectral_arrow: 16
-      experience_bottle: 3
-      trident: 16
+      ervaring_fles: 3
+      drietand: 16
       wither_skull: 4
       area_effect_cloud: 8
 ```
 
-With the help of this entry you can set limits to how many entities of specified type can be saved. You should provide a limit for each projectile at least to avoid issues with massive amounts of projectiles being saved and your server crashing on loading that. You can put any entity id here, see the minecraft wiki to find IDs of entities. Please adjust the limit to your liking. Suggested value for all projectiles is around `10`. You can also add other entities by their type names to that list. This config option is not designed to prevent players from making large mob farms.
+Met behulp van dit item kunt u grenzen instellen voor het aantal entiteiten van een bepaald type dat kan worden opgeslagen. Je zou op zijn minst een limiet moeten instellen voor elk projectiel om problemen te voorkomen met enorme hoeveelheden projectielen die worden opgeslagen en je server die crasht bij het laden. Je kan hier elke entiteit id zetten, zie de minecraft wiki om IDs van entiteiten te vinden. Pas de limiet aan naar je eigen smaak. Aanbevolen waarde voor alle projectielen is rond de `10`. Je kunt ook andere entiteiten toevoegen door hun type naam aan deze lijst toe te voegen. Deze configuratie optie is niet ontworpen om te voorkomen dat spelers grote mob farms maken.
 
 #### seed-based-feature-search-loads-chunks
 
-`Good starting value: true`
+Goede startwaarde: true
 
-While setting this to `false` will help performance when your `treasure-maps-return-already-discovered` is on `false`, it can result in unexpected behavior, like structures not actually being in the spot marked on the map sometimes. Toggle it if you don't see it as an issue.
+Hoewel het instellen van dit op `false` de performance zal verbeteren als je `treasure-maps-return-already-discovered` op `false` zet, kan het resulteren in onverwacht gedrag, zoals structuren die soms niet op de plek staan die op de kaart is aangegeven. Zet het aan als je het niet als een probleem ziet.
 
 ---
 
@@ -139,201 +139,201 @@ While setting this to `false` will help performance when your `treasure-maps-ret
 #### spawn-limits
 
 ```
-Good starting values:
+Goede start waarden:
 
     monsters: 20
-    animals: 5
-    water-animals: 2
-    water-ambient: 2
-    ambient: 1
+    dieren: 5
+    water-dieren: 2
+    water-omgeving: 2
+    omgeving: 1
 ```
 
-The math of limiting mobs is `[playercount] * [limit]`, where "playercount" is current amount of players on the server. Logically, the smaller the numbers are, the less mobs you're gonna see. `per-player-mob-spawn` applies an additional limit to this, ensuring mobs are equally distributed between players. Reducing this is a double-edged sword; yes, your server has less work to do, but in some gamemodes natural-spawning mobs are a big part of a gameplay. You can go as low as 20 or less if you adjust `mob-spawn-range` properly. Setting `mob-spawn-range` lower will make it feel as if there are more mobs around each player. If you are using Paper, you can set mob limits per world in [`paper.yml`].
+De wiskunde van het limiteren van mobs is `[playercount] * [limit]`, waar "playercount" het huidige aantal spelers op de server is. Logisch, hoe kleiner de aantallen zijn, hoe minder mobs je zult zien. `per-speler-mob-spawn` past hier een extra limiet op toe, om ervoor te zorgen dat mobs gelijk verdeeld worden tussen spelers. Dit verminderen is een tweesnijdend zwaard; ja, je server heeft minder werk te doen, maar in sommige gamemodes zijn natuurlijk spawnende mobs een groot deel van de gameplay. Je kunt zo laag gaan als 20 of minder als je `mob-spawn-range` goed instelt. Door `mob-spawn-range` lager in te stellen zal het lijken alsof er meer mobs rond elke speler zijn. Als je Paper gebruikt, kun je mob-limieten per wereld instellen in [`paper.yml`].
 
-#### ticks-per
+#### tikken-per
 
 ```
-Good starting values:
+Goede beginwaarden:
 
     monster-spawn: 10
-    animal-spawns: 400
-    water-spawns: 400
-    water-ambient-spawns: 400
-    ambient-spawns: 400
+    dieren-koninklijken: 400
+    water-gooien: 400
+    water-ambient-gooien: 400
+    omgevings-gooien: 400
 ```
 
-This option sets how often (in ticks) the server attempts to spawn certain living entities. Water/ambient mobs do not need to spawn each tick as they don't usually get killed that quickly. As for monsters: Slightly increasing the time between spawns should not impact spawn rates even in mob farms. In most cases all of the values under this option should be higher than `1`. Setting this higher also allows your server to better cope with areas where mob spawning is disabled.
+Deze optie stelt in hoe vaak (in ticks) de server probeert om bepaalde levende wezens te spawnen. Water/ambient mobs hoeven niet elke tick te spawnen omdat ze meestal niet zo snel gedood worden. Wat monsters betreft: De tijd tussen spawns lichtjes verhogen zou geen invloed mogen hebben op de spawn rates, zelfs niet in mob farms. In de meeste gevallen zouden alle waardes onder deze optie hoger moeten zijn dan `1`. Door dit hoger te zetten kan je server ook beter omgaan met gebieden waar mob spawn is uitgeschakeld.
 
 ### [spigot.yml]
 
 #### mob-spawn-range
 
-`Good starting value: 2`
+Goede startwaarde: 2
 
-Allows you to reduce the range (in chunks) of where mobs will spawn around the player. Depending on your server's gamemode and its playercount you might want to reduce this value along with [bukkit.yml]'s `spawn-limits`. Setting this lower will make it feel as if there are more mobs around you. This should be lower than or equal to your view distance, and never larger than your hard despawn range / 16.
+Staat je toe om het bereik (in brokken) te verkleinen van waar mobs zullen spawnen rond de speler. Afhankelijk van de gamemode van je server en het aantal spelers zou je deze waarde kunnen verlagen samen met [bukkit.yml]'s `spawn-limits`. Door dit lager in te stellen zal het lijken alsof er meer mobs om je heen zijn. Dit moet lager zijn dan of gelijk aan je zichtafstand, en nooit groter dan je harde despawn range / 16.
 
-#### entity-activation-range
+#### entiteit-activatie-bereik
 
 ```
-Good starting values:
+Goede beginwaarden:
 
-      animals: 16
+      dieren: 16
       monsters: 24
-      raiders: 48
-      misc: 8
+      overvallers: 48
+      diversen: 8
       water: 8
-      villagers: 16
-      flying-monsters: 48
+      dorpelingen: 16
+      vliegende monsters: 48
 ```
 
-You can set what distance from the player an entity should be for it to tick (do stuff). Reducing those values helps performance, but may result in irresponsive mobs until the player gets really close to them. Lowering this too far can break certain mob farms; iron farms being the most common victim.
+Je kan instellen hoe ver een entiteit van de speler moet zijn om te tikken (dingen te doen). Het verlagen van deze waarden helpt de prestaties, maar kan resulteren in onresponsieve mobs totdat de speler echt dicht bij ze komt. Dit te ver verlagen kan bepaalde mob farms kapot maken; iron farms zijn het meest voorkomende slachtoffer.
 
-#### entity-tracking-range
+#### entiteit-tracking-bereik
 
 ```
-Good starting values:
+Goede beginwaarden:
 
-      players: 48
-      animals: 48
+      spelers: 48
+      dieren: 48
       monsters: 48
-      misc: 32
-      other: 64
+      diversen: 32
+      andere: 64
 ```
 
-This is distance in blocks from which entities will be visible. They just won't be sent to players. If set too low this can cause mobs to seem to appear out of nowhere near a player. In the majority of cases this should be higher than your `entity-activation-range`.
+Dit is de afstand in blokken vanaf waar entiteiten zichtbaar zullen zijn. Ze zullen alleen niet naar spelers worden gestuurd. Als je dit te laag instelt kan het lijken of een entiteit uit het niets verschijnt in de buurt van een speler. In de meeste gevallen zou dit hoger moeten zijn dan je `entity-activatie-range`.
 
-#### tick-inactive-villagers
+#### teek-inactieve-dorpelingen
 
-`Good starting value: false`
+Goede startwaarde: false
 
-This allows you to control whether villagers should be ticked outside of the activation range. This will make villagers proceed as normal and ignore the activation range. Disabling this will help performance, but might be confusing for players in certain situations. This may cause issues with iron farms and trade restocking.
+Hiermee kun je bepalen of dorpelingen moeten worden aangevinkt buiten het activeringsbereik. Dit zal ervoor zorgen dat dorpelingen normaal doorgaan en het activeringsbereik negeren. Het uitschakelen hiervan zal de prestaties verbeteren, maar kan verwarrend zijn voor spelers in bepaalde situaties. Dit kan problemen veroorzaken met ijzeren boerderijen en het herbevoorraden van handel.
 
 #### nerf-spawner-mobs
 
-`Good starting value: true`
+Goede startwaarde: true
 
-You can make mobs spawned by a monster spawner have no AI. Nerfed mobs will do nothing. You can make them jump while in water by changing `spawner-nerfed-mobs-should-jump` to `true` in [paper.yml].
+Je kunt ervoor zorgen dat mobs die gespawned worden door een monster spawner geen AI hebben. Nerfed mobs zullen niets doen. Je kan ze laten springen in water door `spawner-nerfed-mobs-should-jump` te veranderen in `true` in [paper.yml].
 
 ### [paper.yml]
 
 #### despawn-ranges
 
 ```
-Good starting values:
+Goede start waarden:
 
-      soft: 30
+      zacht: 30
       hard: 56
 ```
 
-Lets you adjust entity despawn ranges (in blocks). Lower those values to clear the mobs that are far away from the player faster. You should keep soft range around `30` and adjust hard range to a bit more than your actual view-distance, so mobs don't immediately despawn when the player goes just beyond the point of a chunk being loaded (this works well because of `delay-chunk-unloads-by` in [paper.yml]). When a mob is out of the hard range, it will be instantly despawned. When between the soft and hard range, it will have a random chance of despawning. Your hard range should be larger than your soft range. You should adjust this according to your view distance using `(view-distance * 16) + 8`. This partially accounts for chunks that haven't been unloaded yet after player visited them.
+Hiermee kun je de entiteit despawn bereiken aanpassen (in blokken). Verlaag deze waarden om de mobs die ver weg zijn van de speler sneller te verwijderen. Je zou de soft range rond de 30 moeten houden en de hard range iets meer dan je eigenlijke view-distance, zodat mobs niet meteen despawnen als de speler net voorbij het punt gaat waar een chunk geladen wordt (dit werkt goed door de `delay-chunk-unloads-by` in [paper.yml]). Wanneer een mob buiten het harde bereik is, zal deze direct despawned worden. Wanneer tussen de zachte en harde range, zal het een willekeurige kans hebben om te despawnen. Je harde bereik moet groter zijn dan je zachte bereik. Je moet dit aanpassen aan je zichtafstand door `(zichtafstand * 16) + 8` te gebruiken. Dit houdt gedeeltelijk rekening met chunks die nog niet uitgeladen zijn nadat de speler ze bezocht heeft.
 
-#### per-player-mob-spawns
+#### per-speler-mob-spawns
 
-`Good starting value: true`
+Goede beginwaarde: true
 
-This option decides if mob spawns should account for how many mobs are around target player already. You can bypass a lot of issues regarding mob spawns being inconsistent due to players creating farms that take up the entire mobcap. This will enable a more singleplayer-like spawning experience, allowing you to set lower `spawn-limits`. Enabling this does come with a very slight performance impact, however it's impact is overshadowed by the improvements in `spawn-limits` it allows.
+Deze optie bepaalt of mob spawns rekening moeten houden met hoeveel mobs er al rond de speler zijn. Je kunt hiermee veel problemen omzeilen met betrekking tot mob spawns die inconsistent zijn doordat spelers farms maken die de hele mobcap in beslag nemen. Dit zal een meer singleplayer-achtige spawn ervaring mogelijk maken, waardoor je lagere `spawn-limieten` kunt instellen. Het inschakelen hiervan heeft een klein effect op de prestaties, maar het effect wordt overschaduwd door de verbeteringen in `spawn-limits` die het mogelijk maakt.
 
 #### max-entity-collisions
 
-`Good starting value: 2`
+Goede startwaarde: 2
 
-Overwrites option with the same name in [spigot.yml]. It lets you decide how many collisions one entity can process at once. Value of `0` will cause inability to push other entities, including players. Value of `2` should be enough in most cases. It's worth noting that this will render maxEntityCramming gamerule useless if its value is over the value of this config option.
+Overschrijft optie met dezelfde naam in [spigot.yml]. Het laat je beslissen hoeveel botsingen een entiteit in een keer kan verwerken. Waarde van `0` veroorzaakt het onvermogen om andere entiteiten, inclusief spelers, te duwen. Waarde van `2` zou genoeg moeten zijn in de meeste gevallen. Het is de moeite waard om op te merken dat dit maxEntityCramming gamerule nutteloos maakt als zijn waarde hoger is dan de waarde van deze configuratie optie.
 
 #### update-pathfinding-on-block-update
 
-`Good starting value: false`
+Goede startwaarde: false
 
-Disabling this will result in less pathfinding being done, increasing performance. In some cases this will cause mobs to appear more laggy; They will just passively update their path every 5 ticks (0.25 sec).
+Het uitschakelen hiervan zal resulteren in minder pathfinding, wat de performance zal verhogen. In sommige gevallen zal dit ervoor zorgen dat mobs meer laggy lijken; Ze zullen gewoon passief hun pad updaten elke 5 ticks (0.25 sec).
 
 #### fix-climbing-bypassing-cramming-rule
 
-`Good starting value: true`
+Goede startwaarde: true
 
-Enabling this will fix entities not being affected by cramming while climbing. This will prevent absurd amounts of mobs being stacked in small spaces even if they're climbing (spiders).
+Door dit in te schakelen worden entiteiten die klimmen niet beïnvloed. Dit zal voorkomen dat absurde hoeveelheden mannetjes worden gestapeld in kleine ruimtes zelfs als ze klimmen (spinnen).
 
-#### armor-stands-tick
+#### pantser-stand-tick
 
-`Good starting value: false`
+Goede beginwaarde: vals
 
-In most cases you can safely set this to `false`. If you're using armor stands or any plugins that modify their behavior and you experience issues, re-enable it. This will prevent armor stands from being pushed by water or being affected by gravity.
+In de meeste gevallen kun je dit veilig op `valse` zetten. Als je armor stands gebruikt of plugins die hun gedrag aanpassen en je ondervindt problemen, schakel dit dan weer in. Dit zal voorkomen dat pantserstatieven worden geduwd door water of worden beïnvloed door de zwaartekracht.
 
 #### armor-stands-do-collision-entity-lookups
 
-`Good starting value: false`
+Goede beginwaarde: false
 
-Here you can disable armor stand collisions. This will help if you have a lot of armor stands and don't need them colliding with anything.
+Hier kun je armor stand collisions uitschakelen. Dit zal helpen als je veel armorstands hebt en ze nergens tegenaan wilt laten botsen.
 
 #### tick-rates
 
 ```
-Good starting values:
+Goede beginwaarden:
 
       sensor:
         villager:
           secondarypoisensor: 80
-          nearestbedsensor: 80
-          villagerbabiessensor: 40
-          playersensor: 40
-          nearestlivingentitysensor: 40
-      behavior:
-        villager:
+          dichtstbijzijnde beddensensor: 80
+          dorpsbewonerbabysensor: 40
+          spelersensor: 40
+          dichtstbijzijnde woonentiteit-sensor: 40
+      gedrag:
+        dorpeling:
           validatenearbypoi: 60
-          acquirepoi: 120
+          verwervenpoi: 120
 ```
 
-This decides how often specified behaviors and sensors are being fired in ticks. `acquirepoi` for villagers seems to be the heaviest behavior, so it's been greately increased. Decrease it in case of issues with villagers finding their way around.
+Dit bepaalt hoe vaak gespecificeerde gedragingen en sensoren worden afgevuurd in tikken. `acquirepoi` voor dorpelingen schijnt het zwaarste gedrag te zijn, dus is het sterk verhoogd. Verlaag het in het geval van problemen met dorpelingen die hun weg niet kunnen vinden.
 
 ### [airplane.yml]
 
-#### max-loads-per-projectile
+#### max-loads-per-projectiel
 
-`Good starting value: 8`
+Goede beginwaarde: 8
 
-Specifies the maximum amount of chunks a projectile can load in its lifetime. Decreasing will reduce chunk loads caused by entity projectiles, but could cause issues with tridents, enderpearls, etc.
+Specificeert het maximum aantal chunks dat een projectiel kan laden tijdens zijn levensduur. Verminderen zal de chunkbelasting door entiteitprojectielen verminderen, maar kan problemen veroorzaken met tridents, enderpearls, enz.
 
 #### max-tick-freq
 
-`Good starting value: 20`
+Goede beginwaarde: 20
 
-This option defines the slowest amount entities farthest from players will be ticked. Increasing this value may improve the performance of entities far from view but may break farms or greatly nerf mob behavior.
+Deze optie bepaalt hoe langzaam entiteiten die het verst van spelers af staan getickt zullen worden. Het verhogen van deze waarde kan de prestaties verbeteren van entiteiten die ver uit het zicht staan, maar kan farms kapot maken of het gedrag van mobs sterk verminderen.
 
-#### activation-dist-mod
+#### activatie-dist-mod
 
-`Good starting value: 7`
+Goede startwaarde: 7
 
-Controls the gradient in which mobs are ticked. DAB works on a gradient instead of a hard cutoff like EAR. Instead of fully ticking close entities and barely ticking far entities, DAB will reduce the amount an entity is ticked based on the result of this calculation. Decreasing this will activate DAB closer to players, improving DAB's performance gains, but will affect how entities interact with their surroundings and may break mob farms.
+Regelt de gradiënt waarin mobs worden aangevinkt. DAB werkt op een gradiënt in plaats van een harde cutoff zoals EAR. In plaats van entiteiten dichtbij volledig aan te vinken en entiteiten veraf nauwelijks, zal DAB de hoeveelheid van een entiteit die wordt aangevinkt verminderen gebaseerd op het resultaat van deze berekening. Dit verlagen zal DAB dichter bij de spelers activeren, wat de prestatiewinst van DAB verbetert, maar zal invloed hebben op hoe entiteiten met hun omgeving omgaan en kan mob farms kapot maken.
 
 ### [purpur.yml]
 
 #### dont-send-useless-entity-packets
 
-`Good starting value: true`
+Goede startwaarde: true
 
-Enabling this option will save you bandwidth by preventing the server from sending empty position change packets (by default the server sends this packet for each entity even if the entity hasn't moved). May cause some issues with plugins that use client-side entities.
+Door deze optie in te schakelen bespaar je bandbreedte door te voorkomen dat de server lege positiewijzigingspakketten verstuurt (standaard verstuurt de server dit pakket voor elke entiteit, zelfs als de entiteit niet is verplaatst). Dit kan problemen veroorzaken met plugins die client-side entiteiten gebruiken.
 
 #### aggressive-towards-villager-when-lagging
 
-`Good starting value: false`
+Goede startwaarde: false
 
-Enabling this will cause zombies to stop targeting villagers if the server is below the tps threshold set with `lagging-threshold` in [purpur.yml].
+Als je dit inschakelt zullen zombies stoppen met het aanvallen van dorpelingen als de server onder de tps drempel zit die is ingesteld met `lagging-threshold` in [purpur.yml].
 
-#### entities-can-use-portals
+#### entiteiten-kunnen-portalen-gebruiken
 
-`Good starting value: false`
+Goede startwaarde: false
 
-This option can disable portal usage of all entities besides the player. This prevents entities from loading chunks by changing worlds which is handled on the main thread. This has the side effect of entities not being able to go through portals.
+Deze optie kan het gebruik van portalen uitschakelen voor alle entiteiten behalve de speler. Dit voorkomt dat entiteiten chunks laden door van wereld te veranderen, wat wordt afgehandeld op de hoofddraad. Dit heeft als neveneffect dat entiteiten niet door portalen kunnen gaan.
 
 #### villager.brain-ticks
 
-`Good starting value: 2`
+Goede startwaarde: 2
 
-This option allows you to set how often (in ticks) villager brains (work and poi) will tick. Going higher than `3` is confirmed to make villagers inconsistent/buggy.
+Met deze optie kun je instellen hoe vaak (in tikken) de hersenen van een dorpeling (werk en poi) zullen tikken. Hoger dan `3` is bevestigd dat dorpelingen inconsistent/buggy worden.
 
 #### villager.lobotomize
 
-`Good starting value: true`
+Goede startwaarde: true
 
-Lobotomized villagers are stripped from their AI and only restock their offers every so often. Enabling this will lobotomize villagers that are unable to pathfind to their destination. Freeing them should unlobotomize them.
+Lobotomize dorpelingen worden ontdaan van hun AI en zullen alleen om de zoveel tijd hun aanbod aanvullen. Door dit in te schakelen zullen dorpelingen die niet in staat zijn om hun bestemming te vinden, gelobotomiseerd worden. Hen bevrijden zou hen weer moeten lobotomiseren.
 
 ---
 
@@ -344,113 +344,113 @@ Lobotomized villagers are stripped from their AI and only restock their offers e
 #### merge-radius
 
 ```
-Good starting values:
+Goede start waarden:
 
       item: 3.5
       exp: 4.0
 ```
 
-This decides the distance between the items and exp orbs to be merged, reducing the amount of items ticking on the ground. Setting this too high will lead to the illusion of items or exp orbs disappearing as they merge together. Setting this too high will break some farms, as well as allow items to teleport through blocks. There are no checks done to prevent items from merging through walls. Exp is only merged on creation.
+Dit bepaalt de afstand tussen de items en exp orbs die worden samengevoegd, waardoor er minder items op de grond tikken. Als je dit te hoog instelt zal dit leiden tot de illusie dat items of exp orbs verdwijnen als ze samengevoegd worden. Als je dit te hoog instelt, zullen sommige boerderijen kapot gaan, en zullen items door blokken kunnen teleporteren. Er worden geen controles uitgevoerd om te voorkomen dat items door muren heen samensmelten. Exp wordt alleen samengevoegd bij het aanmaken.
 
-#### hopper-transfer
+#### hopper-overdracht
 
-`Good starting value: 8`
+Goede startwaarde: 8
 
-Time in ticks that hoppers will wait to move an item. Increasing this will help improve performance if there are a lot of hoppers on your server, but will break hopper-based clocks and possibly item sorting systems if set too high.
+Tijd in tikken dat hoppers zullen wachten om een item te verplaatsen. Het verhogen van deze tijd zal de performance verbeteren als er veel hoppers op je server zijn, maar zal hopper-gebaseerde klokken en mogelijk item sorteer systemen breken als het te hoog is ingesteld.
 
 #### hopper-check
 
-`Good starting value: 8`
+Goede startwaarde: 8
 
-Time in ticks between hoppers checking for an item above them or in the inventory above them. Increasing this will help performance if there are a lot of hoppers on your server, but will break hopper-based clocks and item sorting systems relying on water streams.
+Tijd in tikken tussen hoppers die controleren op een item boven hen of in de inventaris boven hen. Het verhogen van deze tijd zal de performance verbeteren als er veel hoppers op je server zijn, maar zal hopper-gebaseerde klokken en item sorteer systemen die vertrouwen op waterstromen breken.
 
 ### [paper.yml]
 
 #### alt-item-despawn-rate
 
 ```
-Good starting values:
+Goede start waarden:
 
-      enabled: true
+      ingeschakeld: waar
       items:
           COBBLESTONE: 300
 ```
 
-This list lets you set alternative time (in ticks) to despawn certain types of dropped items faster or slower than default. This option can be used instead of item clearing plugins along with `merge-radius` to improve performance.
+Met deze lijst kun je een alternatieve tijd instellen (in ticks) om bepaalde soorten gedropte items sneller of langzamer te laten verdwijnen dan standaard. Deze optie kan gebruikt worden in plaats van item clearing plugins samen met `merge-radius` om de performance te verbeteren.
 
 #### use-faster-eigencraft-redstone
 
-`Good starting value: true`
+Goede beginwaarde: waar`
 
-When enabled, the redstone system is replaced by a faster and alternative version that reduces redundant block updates, lowering the amount of work your server has to do. Enabling this can significantly improve performance without introducing gameplay inconsistencies. Enabling this will even fix some redstone inconsistencies from craftbukkit.
+Wanneer dit is ingeschakeld, wordt het redstone systeem vervangen door een snellere en alternatieve versie die overbodige blokupdates vermindert, waardoor je server minder werk hoeft te doen. Door dit in te schakelen kun je de prestaties aanzienlijk verbeteren zonder inconsistenties in de gameplay te introduceren. Het inschakelen hiervan zal zelfs sommige redstone inconsistenties van craftbukkit oplossen.
 
 #### disable-move-event
 
-`Good starting value: false`
+`Goede beginwaarde: false`
 
-`InventoryMoveItemEvent` doesn't fire unless there is a plugin actively listening to that event. This means that you only should set this to true if you have such plugin(s) and don't care about them not being able to act on this event. **Do not set to true if you want to use plugins that listen to this event, e.g. protection plugins!**
+`InventoryMoveItemEvent` gaat niet af, tenzij er een plugin is die actief luistert naar dat event. Dit betekent dat je dit alleen op true moet zetten als je zulke plugin(s) hebt en het niet erg vindt dat ze niet kunnen reageren op dit event. **Zet dit niet op true als je plugins wilt gebruiken die naar deze gebeurtenis luisteren, b.v. beschermingsplugins!**
 
 #### mob-spawner-tick-rate
 
-`Good starting value: 2`
+Goede startwaarde: 2
 
-This option lets you configure how often spawners should be ticked. Higher values mean less lag if you have a lot of spawners, although if set too high (relative to your spawners delay) mob spawn rates will decrease.
+Deze optie laat je configureren hoe vaak spawners moeten worden aangevinkt. Hogere waarden betekenen minder vertraging als je veel spawners hebt, maar als je deze te hoog instelt (in verhouding tot de vertraging van je spawners) zal de snelheid waarmee mob spawnt afnemen.
 
-#### optimize-explosions
+#### optimaliseer-explosies
 
-`Good starting value: true`
+Goede start waarde: true
 
-Setting this to `true` replaces the vanilla explosion algorithm with a faster one, at a cost of slight inaccuracy when calculating explosion damage. This is usually not noticeable.
+Als je dit op `true` zet wordt het vanilla explosie algoritme vervangen door een sneller algoritme, ten koste van een kleine onnauwkeurigheid bij het berekenen van de explosie schade. Dit is meestal niet merkbaar.
 
 #### enable-treasure-maps
 
-`Good starting value: false`
+Goede beginwaarde: false
 
-Generating treasure maps is extremely expensive and can hang a server if the structure it's trying to locate is outside of your pregenerated world. It's only safe to enable this if you pregenerated your world and set a vanilla world border.
+Het genereren van schatkaarten is erg duur en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanille wereldgrens hebt ingesteld.
 
-#### treasure-maps-return-already-discovered
+#### schat-kaarten-terugkeren-al-ontdekt
 
-`Good starting value: true`
+Goede startwaarde: true
 
-Default value of this option forces the newly generated maps to look for unexplored structure, which are usually outside of your pregenerated terrain. Setting this to true makes it so maps can lead to the structures that were discovered earlier. If you don't change this to `true` you may experience the server hanging or crashing when generating new treasure maps.
+De standaardwaarde van deze optie dwingt de nieuw gegenereerde kaarten om te zoeken naar onontdekte structuren, die meestal buiten je voorgegenereerde terrein liggen. Door dit op true te zetten, kunnen kaarten leiden naar de structuren die eerder ontdekt zijn. Als je dit niet op `true` zet kan het zijn dat de server blijft hangen of crasht bij het genereren van nieuwe schatkaarten.
 
 #### grass-spread-tick-rate
 
-`Good starting value: 4`
+Goede startwaarde: 4`
 
-Time in ticks between the server trying to spread grass or mycelium. This will make it so large areas of dirt will take a little longer to turn to grass or mycelium. Setting this to around `4` should work nicely if you want to decrease it without the decreased spread rate being noticeable.
+Tijd in tikken tussen het moment dat de server gras of mycelium probeert te verspreiden. Dit zorgt ervoor dat grote stukken vuil er iets langer over doen om in gras of mycelium te veranderen. Dit instellen op ongeveer `4` zou goed moeten werken als je het wilt verminderen zonder dat de verminderde verspreiding merkbaar is.
 
 #### container-update-tick-rate
 
-`Good starting value: 1`
+Goede startwaarde: 1
 
-Time in ticks between container updates. Increasing this might help if container updates cause issues for you (it rarely happens), but makes it easier for players to experience desync when interacting with inventories (ghost items).
+Tijd in ticks tussen container updates. Dit verhogen kan helpen als container updates problemen veroorzaken (dit gebeurt zelden), maar maakt het makkelijker voor spelers om desync te ervaren bij interactie met inventories (spook items).
 
 #### non-player-arrow-despawn-rate
 
-`Good starting value: 20`
+Goede startwaarde: 20
 
-Time in ticks after which arrows shot by mobs should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
+Tijd in tikken waarna pijlen afgeschoten door mobs moeten verdwijnen nadat ze iets geraakt hebben. Spelers kunnen deze pijlen toch niet oppakken, dus je kunt dit net zo goed instellen op iets als `20` (1 seconde).
 
-#### creative-arrow-despawn-rate
+#### creative-pijl-despawn-rate
 
-`Good starting value: 20`
+Goede startwaarde: 20
 
-Time in ticks after which arrows shot by players in creative mode should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
+Tijd in tikken waarna pijlen die door spelers in de creatieve modus zijn afgeschoten moeten verdwijnen nadat ze iets hebben geraakt. Spelers kunnen deze pijlen toch niet oppakken, dus je kunt dit net zo goed instellen op iets als `20` (1 seconde).
 
 ### [purpur.yml]
 
 #### disable-treasure-searching
 
-`Good starting value: true`
+Goede startwaarde: true
 
-Prevents dolphins from performing structure search similar to treasure maps
+Voorkomt dat dolfijnen structuurzoeken uitvoeren die lijken op schatkaarten
 
 #### teleport-if-outside-border
 
-`Good starting value: true`
+`Goede startwaarde: true`
 
-Allows you to teleport the player to the world spawn if they happen to be outside of the world border. Helpful since the vanilla world border is bypassable and the damage it does to the player can be mitigated.
+Maakt het mogelijk om de speler te teleporteren naar de spawn als hij buiten de wereldgrens is. Handig omdat de vanilla wereldgrens te omzeilen is en de schade die het aan de speler toebrengt kan worden beperkt.
 
 ---
 
@@ -460,61 +460,61 @@ Allows you to teleport the player to the world spawn if they happen to be outsid
 
 #### anti-xray
 
-`Good starting value: true`
+Goede startwaarde: true
 
-Enable this to hide ores from x-rayers. For detailed configuration of this feature check out [Stonar96's recommended settings](https://gist.github.com/stonar96/ba18568bd91e5afd590e8038d14e245e). Enabling this will actually decrease performance, however it is much more efficient than any anti-xray plugin. In most cases the performance impact will be negligible.
+Schakel dit in om ertsen te verbergen voor x-rayers. Voor gedetailleerde configuratie van deze functie, zie [Stonar96's aanbevolen instellingen](https://gist.github.com/stonar96/ba18568bd91e5afd590e8038d14e245e). Het inschakelen hiervan zal de prestatie verminderen, maar het is veel efficiënter dan een anti-xray plugin. In de meeste gevallen zal de prestatie-impact te verwaarlozen zijn.
 
 #### remove-corrupt-tile-entities
 
-`Good starting value: true`
+Goede startwaarde: true
 
-Change this to `true` if you're getting your console spammed with errors regarding tile entities. This will remove any tile entities that cause the error instead of ignoring it. If you get frequent warnings about tile entities, investigate why they are breaking. This is not a solution to the root issue.
+Verander dit naar `true` als je console wordt overspoeld met fouten over tile-entiteiten. Dit zal alle tile-entiteiten die de fout veroorzaken verwijderen in plaats van negeren. Als u regelmatig waarschuwingen krijgt over tile entiteiten, onderzoek dan waarom ze breken. Dit is geen oplossing voor het hoofdprobleem.
 
 #### nether-ceiling-void-damage-height
 
-`Good starting value: 127`
+Goede startwaarde: 127
 
-If this option is greater that `0`, players above the set y level will be damaged as if they were in the void. This will prevent players from using the nether roof. Vanilla nether is 128 blocks tall, so you should probably set it to `127`. If you modify the height of the nether in any way you should set this to `[your_nether_height] - 1`.
+Als deze optie groter is dan `0`, zullen spelers boven het ingestelde y-niveau beschadigd worden alsof ze in de leegte staan. Dit zal voorkomen dat spelers het nether dak gebruiken. De vanille nether is 128 blocks hoog, dus je moet hem waarschijnlijk op `127` zetten. Als je de hoogte van de nether op een of andere manier aanpast, moet je dit instellen op `[jouw_nether_hoogte] - 1`.
 
 ---
 
-# Java startup flags
-[Vanilla Minecraft and Minecraft server software in version 1.17 requires Java 16 or higher](https://papermc.io/forums/t/java-16-mc-1-17-and-paper/5615). Oracle has changed their licensing, and there is no longer a compelling reason to get your java from them. Recommended vendors are [Amazon Corretto](https://aws.amazon.com/corretto/) and [Adoptium](https://adoptium.net/). Alternative JVM implementations such as OpenJ9 or GraalVM can work, however they are not supported by paper and have been known to cause issues, therefore they are not currently recommended.
+# Java opstartvlaggen
+[Vanilla Minecraft en Minecraft server software in versie 1.17 vereist Java 16 of hoger](https://papermc.io/forums/t/java-16-mc-1-17-and-paper/5615). Oracle heeft hun licenties veranderd, en er is niet langer een dwingende reden om je java van hen te krijgen. Aanbevolen verkopers zijn [Amazon Corretto](https://aws.amazon.com/corretto/) en [Adoptium](https://adoptium.net/). Alternatieve JVM implementaties zoals OpenJ9 of GraalVM kunnen werken, maar ze worden niet ondersteund door papier en staan erom bekend dat ze problemen veroorzaken, daarom worden ze momenteel niet aanbevolen.
 
-Your garbage collector can be configured to reduce lag spikes caused by big garbage collector tasks. You can find startup flags optimized for Minecraft servers [here](https://mcflags.emc.gs/) [`SOG`]. Keep in mind that this recommendation will not work on alternative jvm implementations.
+Je vuilnisman kan geconfigureerd worden om vertragingspieken veroorzaakt door grote vuilnisman taken te verminderen. Je kunt opstartvlaggen vinden die geoptimaliseerd zijn voor Minecraft servers [hier](https://mcflags.emc.gs/) [`SOG`]. Houd in gedachten dat deze aanbeveling niet zal werken op alternatieve jvm implementaties.
 
-# Linux CPU scaling 
-Some hosts might ship machines running in "PowerSave" mode. This can result in nearly 25% lower clock speeds and thus vastly lower single threaded performance. This can lead to severly worse performance than setting the CPU scaling to performance mode. Please note that this might be unavailable for VPS.
+# Linux CPU schaling 
+Sommige hosts kunnen machines leveren die in "PowerSave" mode draaien. Dit kan resulteren in bijna 25% lagere kloksnelheden en dus veel lagere single threaded prestaties. Dit kan leiden tot veel slechtere prestaties dan wanneer de CPU-schaling op prestatiemodus wordt gezet. Merk op dat dit mogelijk niet beschikbaar is voor VPS.
 
-For Debian / Ubuntu
+Voor Debian / Ubuntu
 
-`cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor` Shows the CPU's performance profile.
+`cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor` Toont het prestatieprofiel van de CPU.
 
-`echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor` Sets profile to performance.
+`echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor` Stelt het profiel in op performance.
 
-# "Too good to be true" plugins
+# "Te mooi om waar te zijn" plugins
 
-## Plugins removing ground items
-Absolutely unnecessary since they can be replaced with [merge radius](#merge-radius) and [alt-item-despawn-rate](#alt-item-despawn-rate) and frankly, they're less configurable than basic server configs. They tend to use more resources scanning and removing items than not removing the items at all.
+## Plugins die gronditems verwijderen
+Absoluut onnodig omdat ze vervangen kunnen worden door [merge-radius](#merge-radius) en [alt-item-despawn-rate](#alt-item-despawn-rate) en eerlijk gezegd zijn ze minder configureerbaar dan basis server configs. Ze hebben de neiging om meer middelen te gebruiken voor het scannen en verwijderen van items dan voor het helemaal niet verwijderen van de items.
 
 ## Mob stacker plugins
-It's really hard to justify using one. Stacking naturally spawned entities causes more lag than not stacking them at all due to the server constantly trying to spawn more mobs. The only "acceptable" use case is for spawners on servers with a large amount of spawners.
+Het is echt moeilijk om het gebruik ervan te rechtvaardigen. Het stapelen van natuurlijk gespawnde entiteiten veroorzaakt meer vertraging dan ze helemaal niet te stapelen doordat de server constant probeert meer mobs te spawnen. De enige "aanvaardbare" use case is voor spawners op servers met een groot aantal spawners.
 
-## Plugins enabling/disabling other plugins
-Anything that enables or disables plugins on runtime is extremely dangerous. Loading a plugin like that can cause fatal errors with tracking data and disabling a plugin can lead to errors due to removing dependency. The `/reload` command suffers from exact same issues and you can read more about them in [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
+## Plugins die andere plugins in- of uitschakelen
+Alles dat plugins in- of uitschakelt tijdens runtime is extreem gevaarlijk. Het laden van zo'n plugin kan fatale fouten veroorzaken met tracking data en het uitschakelen van een plugin kan leiden tot fouten door het verwijderen van dependency. Het `/reload` commando lijdt aan exact dezelfde problemen en je kunt er meer over lezen in [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
 
-# What's lagging? - measuring performance
+# Wat is er aan het vertragen? - het meten van prestaties
 
 ## mspt
-Paper offers a `/mspt` command that will tell you how much time the server took to calculate recent ticks. If the first and second value you see are lower than 50, then congratulations! Your server is not lagging! If the third value is over 50 then it means there was at least 1 tick that took longer. That's completely normal and happens from time to time, so don't panic.
+Paper biedt een `/mspt` commando dat je vertelt hoeveel tijd de server nodig had om recente ticks te berekenen. Als de eerste en tweede waarde die je ziet lager zijn dan 50, dan gefeliciteerd! Uw server is niet traag! Als de derde waarde boven de 50 is, betekent dit dat er minstens 1 tick langer over deed. Dat is volkomen normaal en gebeurt van tijd tot tijd, dus geen paniek.
 
 ## timings
-Great way to see what might be going on when your server is lagging are timings. Timings is a tool that lets you see exactly what tasks are taking the longest. It's the most basic troubleshooting tool and if you ask for help regarding lag you will most likely be asked for your timings.
+Een goede manier om te zien wat er aan de hand kan zijn als je server lagging vertoont zijn timings. Timing is een tool waarmee je precies kunt zien welke taken het langst duren. Het is de meest elementaire tool om problemen op te lossen en als je om hulp vraagt met betrekking tot lag zul je waarschijnlijk om je timings worden gevraagd.
 
-To get timings of your server you just need to execute the `/timings paste` command and click the link you're provided with. You can share this link with other people to let them help you. It's also easy to misread if you don't know what you're doing. There is a detailed [video tutorial by Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ) on how to read them.
+Om de timings van je server te krijgen hoef je alleen maar het `/timings paste` commando uit te voeren en op de link te klikken die je krijgt. Je kunt deze link delen met andere mensen zodat zij je kunnen helpen. Het is ook gemakkelijk om verkeerd te lezen als je niet weet wat je doet. Er is een gedetailleerde [video tutorial door Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ) over hoe je ze moet lezen.
   
 ## spark
-[Spark](https://github.com/lucko/spark) is a plugin that allows you to profile your servers CPU and memory usage. You can read on how to use it [on its wiki](https://spark.lucko.me/docs/). There's also a guide on how to find the cause of lag spikes [here](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
+[Spark](https://github.com/lucko/spark) is een plugin die je toelaat om je servers CPU en geheugengebruik te profileren. Je kunt lezen hoe het te gebruiken [op zijn wiki](https://spark.lucko.me/docs/). Er is ook een gids over hoe je de oorzaak van lag spikes kunt vinden [hier](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
 
 
 [`SOG`]: https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/
