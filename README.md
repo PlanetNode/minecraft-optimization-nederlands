@@ -79,7 +79,7 @@ Deze optie maakt het mogelijk om de maximale afstand in brokken in te stellen di
 
 #### delay-chunk-unloads-by
 
-`Goede beginwaarde: 10`
+`Goede startwaarde: 10`
 
 Met deze optie kun je instellen hoe lang chunks geladen blijven nadat een speler is vertrokken. Dit helpt om niet constant dezelfde chunks te laden en te lossen als een speler heen en weer beweegt. Te hoge waarden kunnen resulteren in veel te veel chunks die in één keer geladen worden. In gebieden die vaak worden geteleporteerd en geladen, kun je overwegen om het gebied permanent geladen te houden. Dit zal lichter zijn voor je server dan het constant laden en lossen van chunks.
 
@@ -98,7 +98,7 @@ Wanneer ingeschakeld, voorkomt dit dat spelers in onbeladen chunks lopen en sync
 #### entity-per-chunk-save-limit
 
 ```
-Goede beginwaarden:
+Goede startwaarde:
 
       experience_orb: 16
       arrow: 16
@@ -137,7 +137,7 @@ Hoewel het instellen van dit op `false` de performance zal verbeteren als je `tr
 #### spawn-limits
 
 ```
-Goede start waarden:
+Goede startwaarde:
 
     monsters: 20
     animals: 5
@@ -151,7 +151,7 @@ De wiskunde van het limiteren van mobs is `[playercount] * [limit]`, waar "playe
 #### ticks-per
 
 ```
-Goede beginwaarden:
+Goede startwaarde:
 
     monster-spawn: 10
     animal-spawns: 400
@@ -173,7 +173,7 @@ Staat je toe om het bereik (in brokken) te verkleinen van waar mobs zullen spawn
 #### entity-activation-range
 
 ```
-Goede beginwaarden:
+Goede startwaarde:
 
       animals: 16
       monsters: 24
@@ -189,7 +189,7 @@ Je kan instellen hoe ver een entiteit van de speler moet zijn om te tikken (ding
 #### entity-tracking-range
 
 ```
-Goede beginwaarden:
+Goede startwaarde:
 
       players: 48
       animals: 48
@@ -227,7 +227,7 @@ Hiermee kun je de entiteit despawn bereiken aanpassen (in blokken). Verlaag deze
 
 #### per-player-mob-spawns
 
-`Goede beginwaarde: true`
+`Goede startwaarde: true`
 
 Deze optie bepaalt of mob spawns rekening moeten houden met hoeveel mobs er al rond de speler zijn. Je kunt hiermee veel problemen omzeilen met betrekking tot mob spawns die inconsistent zijn doordat spelers farms maken die de hele mobcap in beslag nemen. Dit zal een meer singleplayer-achtige spawn ervaring mogelijk maken, waardoor je lagere `spawn-limieten` kunt instellen. Het inschakelen hiervan heeft een klein effect op de prestaties, maar het effect wordt overschaduwd door de verbeteringen in `spawn-limits` die het mogelijk maakt.
 
@@ -251,20 +251,20 @@ Door dit in te schakelen worden entiteiten die klimmen niet beïnvloed. Dit zal 
 
 #### armor-stands-tick
 
-`Goede beginwaarde: false`
+`Goede startwaarde: false`
 
 In de meeste gevallen kun je dit veilig op `false` zetten. Als je armor stands gebruikt of plugins die hun gedrag aanpassen en je ondervindt problemen, schakel dit dan weer in. Dit zal voorkomen dat armor stands worden geduwd door water of worden beïnvloed door de zwaartekracht.
 
 #### armor-stands-do-collision-entity-lookups
 
-`Goede beginwaarde: false`
+`Goede startwaarde: false`
 
 Hier kun je armor stand collisions uitschakelen. Dit zal helpen als je veel armorstands hebt en ze nergens tegenaan wilt laten botsen.
 
 #### tick-rates
 
 ```
-Goede beginwaarden:
+Goede startwaarde:
 
       sensor:
         villager:
@@ -285,13 +285,13 @@ Dit bepaalt hoe vaak gespecificeerde gedragingen en sensoren worden afgevuurd in
 
 #### max-loads-per-projectile
 
-`Goede beginwaarde: 8`
+`Goede startwaarde: 8`
 
 Specificeert het maximum aantal chunks dat een projectiel kan laden tijdens zijn levensduur. Verminderen zal de chunkbelasting door entiteitprojectielen verminderen, maar kan problemen veroorzaken met tridents, enderpearls, enz.
 
 #### max-tick-freq
 
-`Goede beginwaarde: 20`
+`Goede startwaarde: 20`
 
 Deze optie bepaalt hoe langzaam entiteiten die het verst van spelers af staan getickt zullen worden. Het verhogen van deze waarde kan de prestaties verbeteren van entiteiten die ver uit het zicht staan, maar kan farms kapot maken of het gedrag van mobs sterk verminderen.
 
@@ -378,13 +378,13 @@ Met deze lijst kun je een alternatieve tijd instellen (in ticks) om bepaalde soo
 
 #### use-faster-eigencraft-redstone
 
-`Goede beginwaarde: true`
+`Goede startwaarde: true`
 
 Wanneer dit is ingeschakeld, wordt het redstone systeem vervangen door een snellere en alternatieve versie die overbodige blokupdates vermindert, waardoor je server minder werk hoeft te doen. Door dit in te schakelen kun je de prestaties aanzienlijk verbeteren zonder inconsistenties in de gameplay te introduceren. Het inschakelen hiervan zal zelfs sommige redstone inconsistenties van craftbukkit oplossen.
 
 #### disable-move-event
 
-`Goede beginwaarde: false`
+`Goede startwaarde: false`
 
 `InventoryMoveItemEvent` gaat niet af, tenzij er een plugin is die actief luistert naar dat event. Dit betekent dat je dit alleen op true moet zetten als je zulke plugin(s) hebt en het niet erg vindt dat ze niet kunnen reageren op dit event. **Zet dit niet op true als je plugins wilt gebruiken die naar deze gebeurtenis luisteren, b.v. beschermingsplugins!**
 
@@ -402,7 +402,7 @@ Als je dit op `true` zet wordt het vanilla explosie algoritme vervangen door een
 
 #### enable-treasure-maps
 
-`Goede beginwaarde: false`
+`Goede startwaarde: false`
 
 Het genereren van schatkaarten is erg duur en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanilla wereldgrens hebt ingesteld.
 
