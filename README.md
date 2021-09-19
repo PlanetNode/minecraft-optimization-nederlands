@@ -1,5 +1,11 @@
 # Minecraft server optimalisatie gids
 
+# Copyright
+All copyright for this translated guide lies with the original author YouHaveTrouble and [PlanetNode](https://planetnode.net/). We have especially asked YouHaveTrouble for permission to translate this guide. We got the permission if we will keep this fork up to date with the changes upstream. What we will do ofcourse. We translated this guide for our [blog](https://blog.planetnode.net/) so don't copy our translated version but rather link to it or it english counter part.
+
+Alle copyright voor deze vertaalde gids ligt bij de originele auteur YouHaveTrouble en [PlanetNode](https://planetnode.net/). We hebben YouHaveTrouble speciaal om toestemming gevraagd om deze gids te vertalen. We hebben de toestemming gekregen als we deze fork up to date houden met de veranderingen stroomopwaarts. Wat we natuurlijk zullen doen. We hebben deze gids vertaald voor onze [blog](https://blog.planetnode.net/) dus kopieer niet onze vertaalde versie maar link er naar of het engelse tegendeel ervan.
+
+# Start handleiding
 Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of alles lager dan Paper) - ga naar je server.properties en verander `sync-chunk-writes` naar `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn afgeleiden, maar op andere server implementaties moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
 
 Handleiding voor versie 1.17. Sommige dingen kunnen nog van toepassing zijn op 1.15 - 1.16.
