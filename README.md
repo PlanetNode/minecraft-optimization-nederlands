@@ -1,4 +1,5 @@
 # Minecraft server optimalisatie gids
+# Minecraft server optimalisatie gids
 
 # Copyright
 All copyright for this translated guide lies with the original author YouHaveTrouble and [PlanetNode](https://planetnode.net/). We have especially asked YouHaveTrouble for permission to translate this guide. We got permission if we will keep this fork up to date with the changes upstream. What we will do, of course. We translated this guide for our [blog](https://blog.planetnode.net/) so don't copy our translated version but rather link to our version or the English counterpart.
@@ -6,7 +7,7 @@ All copyright for this translated guide lies with the original author YouHaveTro
 Alle copyright voor deze vertaalde gids ligt bij de originele auteur YouHaveTrouble en [PlanetNode](https://planetnode.net/). We hebben YouHaveTrouble speciaal om toestemming gevraagd om deze gids te vertalen. We hebben toestemming gekregen als we deze fork up-to-date houden met de veranderingen stroomopwaarts. Wat we zullen doen, natuurlijk. We hebben deze gids vertaald voor onze [blog](https://blog.planetnode.net/) dus kopieer onze vertaalde versie niet maar link liever naar onze versie of de Engelse tegenhanger.
 
 # Start handleiding
-Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of alles lager dan Paper) - ga naar je server.properties en verander `sync-chunk-writes` naar `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn afgeleiden, maar op andere server implementaties moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
+Opmerking voor gebruikers die op vanilla, Fabric of Spigot zitten (of alles lager dan Paper) – ga naar je server.properties en verander `sync-chunk-writes` naar `false`. Deze optie is geforceerd uitgeschakeld op Paper en zijn afgeleiden, maar op andere server implementaties moet je dit handmatig uitzetten. Dit stelt de server in staat om chunks op te slaan buiten de hoofdthread om, waardoor de belasting op de hoofd tick loop afneemt.
 
 Handleiding voor versie 1.17. Sommige dingen kunnen nog van toepassing zijn op 1.15 - 1.16.
 
@@ -18,31 +19,31 @@ Er zal nooit een gids zijn die je perfecte resultaten geeft. Elke server heeft z
 # Voorbereidingen
 
 ## Server JAR
-Je keuze van server software kan een groot verschil maken in prestatie en API mogelijkheden. Er zijn op dit moment meerdere levensvatbare populaire server JARs, maar er zijn er ook een paar waar je om verschillende redenen beter weg van kunt blijven.
+Je keuze van server software kan een groot verschil maken in prestatie en API-mogelijkheden. Er zijn op dit moment meerdere levensvatbare populaire server JARs, maar er zijn er ook een paar waar je om verschillende redenen beter weg van kunt blijven.
 
 Aanbevolen top picks:
-* [Paper](https://github.com/PaperMC/Paper) - De meest populaire server software die gericht is op het verbeteren van de prestaties terwijl het gameplay en mechanica inconsistenties repareert.
-* [Airplane](https://github.com/Technove/Airplane) - Paper afgeleiden die tot doel heeft de server prestaties verder te verbeteren.
-* [Purpur](https://github.com/pl3xgaming/Purpur) - Airplane/Paper afgeleiden gericht op functies en de vrijheid van aanpassing.
+* [Paper](https://github.com/PaperMC/Paper) – De meest populaire server software die gericht is op het verbeteren van de prestaties terwijl het gameplay en mechanica inconsistenties repareert.
+* [Airplane](https://github.com/Technove/Airplane) – Paper afgeleiden die tot doel heeft de server prestaties verder te verbeteren.
+* [Purpur](https://github.com/pl3xgaming/Purpur) – Airplane/Paper afgeleiden gericht op functies en de vrijheid van aanpassing.
 
 Je moet wegblijven van:
-* Yatopia & Sugarcane - "De gecombineerde kracht van Paper Forks voor maximale instabiliteit en unmaintainablity!" - [KennyTV's lijst van schaamte](https://github.com/KennyTV/list-of-shame). Niets meer over te zeggen. (Bovendien is het project stopgezet).
-* Mohist - "Mohist is geprogrammeerd om kwaadaardig te zijn, spelbrekend, en zeer onstabiel!" - [Redenen waarom je het niet zou moeten gebruiken](https://essentialsx.net/do-not-use-mohist.html)
+* Yatopia & Sugarcane – "De gecombineerde kracht van Paper Forks voor maximale instabiliteit en niet onderhoudbaarheid!" - [KennyTV's lijst van schaamte](https://github.com/KennyTV/list-of-shame). Niets meer over te zeggen. (Bovendien is het project stopgezet).
+* Mohist – "Mohist is geprogrammeerd om kwaadaardig te zijn, spelbrekend, en zeer onstabiel!" - [Redenen waarom je het niet zou moeten gebruiken](https://essentialsx.net/do-not-use-mohist.html)
 * Elke betaalde server JAR die async claimt - 99.99% kans dat het oplichterij is.
-* Bukkit/CraftBukkit/Spigot - Extreem verouderd in termen van performance vergeleken met andere server software waar je toegang tot hebt.
+* Bukkit/CraftBukkit/Spigot – Extreem verouderd in termen van performance vergeleken met andere server software waar je toegang tot hebt.
 * Elke plugin/software die plugins inschakelt/uitschakelt/laadt op runtime. Zie [deze sectie](#plugins-enablingdisabling-other-plugins) om te begrijpen waarom.
 * Veel forks verder stroomafwaarts van Airplane of Purpur zullen instabiliteit en andere problemen tegenkomen. Als u op zoek bent naar meer prestatiewinst, optimaliseer dan uw server of investeer in een persoonlijke private fork.
 
 ## Map pregen
-Map pregeneratie is een van de belangrijkste stappen in het verbeteren van een low-budget server. Dit helpt servers die gehost worden op een gedeelde CPU/single core node het meest, omdat ze niet volledig gebruik kunnen maken van async chunk loading. Je kunt een plugin zoals [Chunky](https://github.com/pop4959/Chunky) gebruiken om de wereld voor te genereren. Zorg ervoor dat je een wereldgrens instelt zodat je spelers geen nieuwe chunks genereren! Merk op dat het pregennen soms uren kan duren, afhankelijk van de radius die je instelt in de pregen plugin.
+Map pregeneratie is een van de belangrijkste stappen in het verbeteren van een low-budget server. Dit helpt servers die gehost worden op een gedeelde CPU/single core node het meest, omdat ze niet volledig gebruik kunnen maken van async chunk loading. Je kunt een plugin zoals [Chunky](https://github.com/pop4959/Chunky) gebruiken om de wereld voor te genereren. Zorg ervoor dat je een wereldgrens instelt zodat je spelers geen nieuwe chunks genereren! Merk op dat het pregenereren soms uren kan duren, afhankelijk van de radius die je instelt in de pregen plugin.
 
-Het is belangrijk om te onthouden dat de bovenwereld, de nether en het einde aparte wereldgrenzen hebben die voor elke wereld ingesteld moeten worden. De nether dimensie is 8x kleiner dan de overworld (indien niet aangepast met een datapack), dus als je de grootte verkeerd instelt, kunnen je spelers buiten de wereldgrens terechtkomen!
+Het is belangrijk om te onthouden dat de bovenwereld, de nether en het einde aparte wereldgrenzen hebben die voor elke wereld ingesteld moeten worden. De nether dimensie is 8 keer kleiner dan de overworld (indien niet aangepast met een datapack), dus als je de grootte verkeerd instelt, kunnen je spelers buiten de wereldgrens terechtkomen!
 
 **Zorg ervoor dat je een vanilla wereldgrens instelt (`/worldborder set [radius]`), omdat het bepaalde functionaliteiten beperkt, zoals het opzoekbereik voor schatkaarten dat lag spikes kan veroorzaken.**
 
 # Configuraties
 
-## Networking
+## Netwerken
 
 ### [server.properties]
 
@@ -99,7 +100,7 @@ Hiermee kun je het incrementeel opslaan van de wereld vertragen door de taak nog
 
 `Goede startwaarde: true`
 
-Wanneer ingeschakeld, voorkomt dit dat spelers in onbeladen chunks lopen en sync loads veroorzaken die de main thread vertragen en lag veroorzaken. De kans dat een speler in een onbelaste chunk stapt is groter naarmate de no-tick-view-afstand kleiner is.
+Wanneer ingeschakeld, voorkomt dit dat spelers in onbeladen chunks lopen en sync loads veroorzaken die de main thread vertragen en lag veroorzaken. De kans dat een speler in een onbelaste chunk stapt, is groter naarmate de no-tick-view-afstand kleiner is.
 
 #### entity-per-chunk-save-limit
 
@@ -305,7 +306,7 @@ Deze optie bepaalt hoe langzaam entiteiten die het verst van spelers af staan ge
 
 `Goede startwaarde: 7`
 
-Regelt de gradiënt waarin mobs worden aangevinkt. DAB werkt op een gradiënt in plaats van een harde cutoff zoals EAR. In plaats van entiteiten dichtbij volledig aan te vinken en entiteiten veraf nauwelijks, zal DAB de hoeveelheid van een entiteit die wordt aangevinkt verminderen gebaseerd op het resultaat van deze berekening. Dit verlagen zal DAB dichter bij de spelers activeren, wat de prestatiewinst van DAB verbetert, maar zal invloed hebben op hoe entiteiten met hun omgeving omgaan en kan mob farms kapot maken.
+Regelt de gradiënt waarin mobs worden aangevinkt. DAB werkt op een gradiënt in plaats van een harde afsnijding zoals EAR. In plaats van entiteiten dicht bij volledig aan te vinken en entiteiten veraf nauwelijks, zal DAB de hoeveelheid van een entiteit die wordt aangevinkt verminderen gebaseerd op het resultaat van deze berekening. Dit verlagen zal DAB dichter bij de spelers activeren, wat de prestatiewinst van DAB verbetert, maar zal invloed hebben op hoe entiteiten met hun omgeving omgaan en kan mob farms kapot maken.
 
 ### [purpur.yml]
 
@@ -313,7 +314,7 @@ Regelt de gradiënt waarin mobs worden aangevinkt. DAB werkt op een gradiënt in
 
 `Goede startwaarde: true`
 
-Door deze optie in te schakelen bespaar je bandbreedte door te voorkomen dat de server lege positiewijzigingspakketten verstuurt (standaard verstuurt de server dit pakket voor elke entiteit, zelfs als de entiteit niet is verplaatst). Dit kan problemen veroorzaken met plugins die client-side entiteiten gebruiken.
+Door deze optie in te schakelen bespaar je bandbreedte door te voorkomen dat de server lege positiewijzigingspakketten verstuurt (standaard verstuurt de server dit pakket voor elke entiteit, zelfs als de entiteit niet is verplaatst). Dit kan problemen veroorzaken met plugins die cliëntzijde entiteiten gebruiken.
 
 #### aggressive-towards-villager-when-lagging
 
@@ -410,7 +411,7 @@ Als je dit op `true` zet wordt het vanilla explosie algoritme vervangen door een
 
 `Goede startwaarde: false`
 
-Het genereren van schatkaarten is erg duur en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanilla wereldgrens hebt ingesteld.
+Het genereren van schatkaarten is erg zwaar en kan een server laten hangen als het gebouw dat het probeert te lokaliseren buiten je voorgegenereerde wereld ligt. Het is alleen veilig om dit aan te zetten als je je wereld hebt voorgegenereerd en een vanilla wereldgrens hebt ingesteld.
 
 #### treasure-maps-return-already-discovered
 
@@ -428,7 +429,7 @@ Tijd in tikken tussen het moment dat de server gras of mycelium probeert te vers
 
 `Goede startwaarde: 1`
 
-Tijd in ticks tussen container updates. Dit verhogen kan helpen als container updates problemen veroorzaken (dit gebeurt zelden), maar maakt het makkelijker voor spelers om desync te ervaren bij interactie met inventories (spook items).
+Tijd in ticks tussen container updates. Dit verhogen kan helpen als container updates problemen veroorzaken (dit gebeurt zelden), maar maakt het makkelijker voor spelers om desync te ervaren bij interactie met inventarissen (spook items).
 
 #### non-player-arrow-despawn-rate
 
@@ -478,17 +479,17 @@ Verander dit naar `true` als je console wordt overspoeld met fouten over tile-en
 
 `Goede startwaarde: 127`
 
-Als deze optie groter is dan `0`, zullen spelers boven het ingestelde y-niveau beschadigd worden alsof ze in de leegte staan. Dit zal voorkomen dat spelers het nether dak gebruiken. De vanilla nether is 128 blocks hoog, dus je moet hem waarschijnlijk op `127` zetten. Als je de hoogte van de nether op een of andere manier aanpast, moet je dit instellen op `[jouw_nether_hoogte] - 1`.
+Als deze optie groter is dan `0`, zullen spelers boven het ingestelde y-niveau beschadigd worden alsof ze in de leegte staan. Dit zal voorkomen dat spelers het nether dak gebruiken. De vanilla nether is 128 blokken hoog, dus je moet hem waarschijnlijk op `127` zetten. Als je de hoogte van de nether op een of andere manier aanpast, moet je dit instellen op `[jouw_nether_hoogte] - 1`.
 
 ---
 
 # Java opstartvlaggen
-[Vanilla Minecraft en Minecraft server software in versie 1.17 vereist Java 16 of hoger](https://papermc.io/forums/t/java-16-mc-1-17-and-paper/5615). Oracle heeft hun licenties veranderd, en er is niet langer een dwingende reden om je java van hen te krijgen. Aanbevolen verkopers zijn [Amazon Corretto](https://aws.amazon.com/corretto/) en [Adoptium](https://adoptium.net/). Alternatieve JVM implementaties zoals OpenJ9 of GraalVM kunnen werken, maar ze worden niet ondersteund door papier en staan erom bekend dat ze problemen veroorzaken, daarom worden ze momenteel niet aanbevolen.
+[Vanilla Minecraft en Minecraft server software in versie 1.17 vereist Java 16 of hoger](https://papermc.io/forums/t/java-16-mc-1-17-and-paper/5615). Oracle heeft hun licenties veranderd, en er is niet langer een dwingende reden om je Java van hen te krijgen. Aanbevolen verkopers zijn [Amazon Corretto](https://aws.amazon.com/corretto/) en [Adoptium](https://adoptium.net/). Alternatieve JVM-implementaties zoals OpenJ9 of GraalVM kunnen werken, maar ze worden niet ondersteund door paper en staan erom bekend dat ze problemen veroorzaken, daarom worden ze momenteel niet aanbevolen.
 
 Je garbage collector kan geconfigureerd worden om vertragingspieken veroorzaakt door grote garbage collector taken te verminderen. Je kunt [hier](https://mcflags.emc.gs/) [`SOG`] opstartvlaggen vinden die geoptimaliseerd zijn voor Minecraft servers. Houd in gedachten dat deze aanbeveling niet zal werken op alternatieve jvm implementaties.
 
-# Linux CPU schaling 
-Sommige hosts kunnen machines leveren die in "PowerSave" mode draaien. Dit kan resulteren in bijna 25% lagere kloksnelheden en dus veel lagere single threaded prestaties. Dit kan leiden tot veel slechtere prestaties dan wanneer de CPU-schaling op prestatiemodus wordt gezet. Merk op dat dit mogelijk niet beschikbaar is voor VPS.
+# Linux CPU-schaling 
+Sommige hosts kunnen machines leveren die in "PowerSave" mode draaien. Dit kan leiden tot bijna 25% lagere kloksnelheden en dus veel lagere single threaded prestaties. Dit kan leiden tot veel slechtere prestaties dan wanneer de CPU-schaling op prestatiemodus wordt gezet. Merk op dat dit mogelijk niet beschikbaar is voor VPS.
 
 Voor Debian / Ubuntu
 
@@ -502,7 +503,7 @@ Voor Debian / Ubuntu
 Absoluut onnodig omdat ze vervangen kunnen worden door [merge-radius](#merge-radius) en [alt-item-despawn-rate](#alt-item-despawn-rate) en eerlijk gezegd zijn ze minder configureerbaar dan basis server configs. Ze hebben de neiging om meer middelen te gebruiken voor het scannen en verwijderen van items dan voor het helemaal niet verwijderen van de items.
 
 ## Mob stacker plugins
-Het is echt moeilijk om het gebruik ervan te rechtvaardigen. Het stapelen van natuurlijk gespawnde entiteiten veroorzaakt meer vertraging dan ze helemaal niet te stapelen doordat de server constant probeert meer mobs te spawnen. De enige "aanvaardbare" use case is voor spawners op servers met een groot aantal spawners.
+Het is echt moeilijk om het gebruik ervan te rechtvaardigen. Het stapelen van natuurlijk gespawnde entiteiten veroorzaakt meer vertraging dan ze helemaal niet te stapelen doordat de server constant probeert meer mobs te spawnen. De enige "aanvaardbare" gebruikssituatie is voor spawners op servers met een groot aantal spawners.
 
 ## Plugins die andere plugins in- of uitschakelen
 Alles dat plugins in- of uitschakelt tijdens runtime is extreem gevaarlijk. Het laden van zo'n plugin kan fatale fouten veroorzaken met tracking data en het uitschakelen van een plugin kan leiden tot fouten door het verwijderen van dependency. Het `/reload` commando lijdt aan exact dezelfde problemen en je kunt er meer over lezen in [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
@@ -513,9 +514,9 @@ Alles dat plugins in- of uitschakelt tijdens runtime is extreem gevaarlijk. Het 
 Paper biedt een `/mspt` commando dat je vertelt hoeveel tijd de server nodig had om recente ticks te berekenen. Als de eerste en tweede waarde die je ziet lager zijn dan 50, dan gefeliciteerd! Uw server is niet traag! Als de derde waarde boven de 50 is, betekent dit dat er minstens 1 tick langer over deed. Dat is volkomen normaal en gebeurt van tijd tot tijd, dus geen paniek.
 
 ## timings
-Een goede manier om te zien wat er aan de hand kan zijn als je server lagging vertoont zijn timings. Timing is een tool waarmee je precies kunt zien welke taken het langst duren. Het is de meest elementaire tool om problemen op te lossen en als je om hulp vraagt met betrekking tot lag zul je waarschijnlijk om je timings worden gevraagd.
+Een goede manier om te zien wat er aan de hand kan zijn als je server lagging vertoont zijn timings. Timing is een tool waarmee je precies kunt zien welke taken het langst duren. Het is de meest elementaire tool om problemen op te lossen en als je om hulp vraagt met betrekking tot lag, zul je waarschijnlijk om je timings worden gevraagd.
 
-Om de timings van je server te krijgen hoef je alleen maar het `/timings paste` commando uit te voeren en op de link te klikken die je krijgt. Je kunt deze link delen met andere mensen zodat zij je kunnen helpen. Het is ook gemakkelijk om verkeerd te lezen als je niet weet wat je doet. Er is een gedetailleerde [video tutorial door Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ) over hoe je ze moet lezen.
+Om de timings van je server te krijgen hoef je alleen maar het `/timings paste` commando uit te voeren en op de link te klikken die je krijgt. Je kunt deze link delen met andere mensen zodat ze je kunnen helpen. Het is ook gemakkelijk om verkeerd te lezen als je niet weet wat je doet. Er is een gedetailleerde [video tutorial door Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ) over hoe je ze moet lezen.
   
 ## spark
 [Spark](https://github.com/lucko/spark) is een plugin die je toelaat om je servers CPU en geheugengebruik te profileren. Je kunt lezen hoe het te gebruiken [op zijn wiki](https://spark.lucko.me/docs/). Er is ook een gids over hoe je de oorzaak van lag spikes kunt vinden [hier](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
@@ -525,19 +526,19 @@ Om de timings van je server te krijgen hoef je alleen maar het `/timings paste` 
 In dit artikel worden veelvoorkomende valkuilen toegelicht waarmee eigenaars van servers te maken krijgen.
 
 ## Always backup
-Er zijn twee soorten mensen - zij die back-ups maken, en zij die back-ups gaan maken. Het is gewoon een kwestie van tijd wanneer je dataverlies ervaart. Maak altijd kopieën om te voorkomen dat u uw wereld- of plugin-gegevens verliest. Je kan dit toepassen op elke computer gerelateerde workflow, niet alleen Minecraft.
+Er zijn twee soorten mensen – zij die back-ups maken, en zij die back-ups gaan maken. Het is gewoon een kwestie van tijd wanneer je dataverlies ervaart. Maak altijd kopieën om te voorkomen dat u uw wereld- of plugin-gegevens verliest. Je kan dit toepassen op elke computer gerelateerde workflow, niet alleen Minecraft.
 
 ## Gebruik geen verouderde software
 Door verouderde softwareversies te gebruiken, riskeer je dat spelers ongepatchte exploits misbruiken, inclusief item duplicatie (oneindige items). Het voegt ook een ongemakkelijkheidsfactor toe aangezien je spelers specifiek hun client versie moeten downgraden om overeen te komen met je server. Dit kan omzeild worden door een protocol hack te gebruiken, maar het is niet ideaal.
 
-## Bukkit/Spigot niet meer draaien
-Bukkit en Spigot staan in principe in onderhoudsmodus. Ze updaten elke keer als er een nieuwe versie is en als er een kritieke exploit wordt gevonden, maar ze voegen geen prestatie-updates toe. Dit betekent dat eventuele prestatieproblemen die u ondervindt met deze software nooit zullen worden verbeterd. Om dat te vermijden, upgrade naar [Paper](https://papermc.io/downloads), [Tuinity](https://ci.codemc.io/job/Spottedleaf/job/Tuinity) of [Purpur](https://purpur.pl3x.net/downloads). Bukkit/Spigot plugins zullen net zo goed (misschien zelfs beter) werken met de server software die vermeld staat. Als ze dat niet doen, dan is het veilig om aan te nemen dat de plugin dev ofwel dingen doet die ze niet zouden moeten doen ofwel nalatig is geweest in het maken van hun plugin. Ze voegen ook optimalisatie patches toe zoals een chunk laadsysteem dat gebruik kan maken van meerdere CPU threads of een instelling die de server toestaat om minder chunks aan te vinken dan het daadwerkelijk naar de speler stuurt.
+## Bukkit/Spigot niet meer gebruiken
+Bukkit en Spigot staan in principe in onderhoudsmodus. Ze updaten elke keer als er een nieuwe versie is en als er een kritieke exploit wordt gevonden, maar ze voegen geen prestatie-updates toe. Dit betekent dat eventuele prestatieproblemen die u ondervindt met deze software nooit zullen worden verbeterd. Om dat te vermijden, upgrade naar [Paper](https://papermc.io/downloads), [Tuinity](https://ci.codemc.io/job/Spottedleaf/job/Tuinity) of [Purpur](https://purpur.pl3x.net/downloads). Bukkit/Spigot plugins zullen net zo goed (misschien zelfs beter) werken met de server software die vermeld staat. Als ze dat niet doen, dan is het veilig om aan te nemen dat de plugin dev ofwel dingen doet die ze niet zouden moeten doen ofwel nalatig is geweest in het maken van hun plugin. Ze voegen ook optimalisatie patches toe zoals een chunk laadsysteem dat gebruik kan maken van meerdere CPU-threads of een instelling die de server toestaat om minder chunks aan te vinken dan het daadwerkelijk naar de speler stuurt.
 
 ## Vermijd datapacks die commando functies gebruiken
 Datapacks die commando's uitvoeren zijn extreem laggy. Het is misschien niet veel met een paar spelers op, maar dat schaalt niet goed met het aantal spelers en zal je server vrij snel vertragen als je meer spelers krijgt. Datapacks die biomes, buitentabellen, enz. veranderen zijn prima. Je bent beter af met het zoeken naar een plugin alternatief.
 
-## Choosing hardware
-Ga niet alleen uit van hoeveel RAM je nodig hebt. Je moet je in plaats daarvan concentreren op wat voor soort CPU je zou moeten gebruiken, aangezien de CPU het belangrijkste onderdeel van de server is. Je wilt iets dat [goed scoort op single core prestaties](https://www.cpubenchmark.net/singleThread.html), aangezien een server voornamelijk draait op één thread. Meervoudige threads worden echter al geruime tijd gebruikt in systemen zoals async chunk loading op papier.
+## Kiezen van hardware
+Ga niet alleen uit van hoeveel RAM je nodig hebt. Je moet je in plaats daarvan concentreren op wat voor soort CPU je zou moeten gebruiken, aangezien de CPU het belangrijkste onderdeel van de server is. Je wilt iets wat [goed scoort op single core prestaties](https://www.cpubenchmark.net/singleThread.html), aangezien een server voornamelijk draait op één thread. Meervoudige threads worden echter al geruime tijd gebruikt in systemen zoals async chunk loading in paper.
 
 Harde schijven (HDD's) moet je absoluut vermijden. Hun snelheden zijn gewoon veel te traag om het te rechtvaardigen om er een server op te draaien, aangezien Minecraft zwaar is op I/O operaties (vooral met hoge view afstanden en hogere speler aantallen). Een Solid State drive (SSD) is een veel betere keuze vanwege zijn veel snellere I/O.
 
