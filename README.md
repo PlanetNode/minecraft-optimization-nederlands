@@ -1,5 +1,4 @@
 # Minecraft server optimalisatie gids
-# Minecraft server optimalisatie gids
 
 # Copyright
 All copyright for this translated guide lies with the original author YouHaveTrouble and [PlanetNode](https://planetnode.net/). We have especially asked YouHaveTrouble for permission to translate this guide. We got permission if we will keep this fork up to date with the changes upstream. What we will do, of course. We translated this guide for our [blog](https://blog.planetnode.net/) so don't copy our translated version but rather link to our version or the English counterpart.
