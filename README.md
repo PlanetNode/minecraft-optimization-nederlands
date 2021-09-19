@@ -520,29 +520,26 @@ Om de timings van je server te krijgen hoef je alleen maar het `/timings paste` 
 ## spark
 [Spark](https://github.com/lucko/spark) is een plugin die je toelaat om je servers CPU en geheugengebruik te profileren. Je kunt lezen hoe het te gebruiken [op zijn wiki](https://spark.lucko.me/docs/). Er is ook een gids over hoe je de oorzaak van lag spikes kunt vinden [hier](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
 
-# Common pitfalls and best practices
+# Veel voorkomende valkuilen en beste aanpak
 
-This article aims to explain common pitfalls that server owners face.
+In dit artikel worden veelvoorkomende valkuilen toegelicht waarmee eigenaars van servers te maken krijgen.
 
 ## Always backup
-There are two types of people - those who make backups, and those who will start making backups. It's just a matter of time when you experience data loss. Always make copies to avoid losing your worlds or plugin data. You can apply this to any computer related workflow, not just minecraft.
+Er zijn twee soorten mensen - zij die back-ups maken, en zij die back-ups gaan maken. Het is gewoon een kwestie van tijd wanneer je dataverlies ervaart. Maak altijd kopieën om te voorkomen dat u uw wereld- of plugin-gegevens verliest. Je kan dit toepassen op elke computer gerelateerde workflow, niet alleen Minecraft.
 
-## Don't use outdated software
-By running outdated software versions you risk players abusing unpatched exploits, including item duplication (infinite items). It also adds an inconvenience factor since your players have to specifically downgrade their client version to match your server. This can be circumvented by using a protocol hack, but it's not ideal.
+## Gebruik geen verouderde software
+Door verouderde softwareversies te gebruiken, riskeer je dat spelers ongepatchte exploits misbruiken, inclusief item duplicatie (oneindige items). Het voegt ook een ongemakkelijkheidsfactor toe aangezien je spelers specifiek hun client versie moeten downgraden om overeen te komen met je server. Dit kan omzeild worden door een protocol hack te gebruiken, maar het is niet ideaal.
 
-## Don't run Bukkit/Spigot anymore
-Bukkit and Spigot are basically in maintenance mode. They update anytime there's a new version and if a critical exploit is found, but don't add any performance updates. This means any performance issues you may experience on those softwares will never be improved over time. To avoid that, upgrade to [Paper](https://papermc.io/downloads), [Tuinity](https://ci.codemc.io/job/Spottedleaf/job/Tuinity) or [Purpur](https://purpur.pl3x.net/downloads). Bukkit/Spigot plugins will work just as well (maybe even better) with the server software listed. If they don't, then it's safe to assume that the plugin dev is either doing things that they shouldn't or did a negligent job creating their plugin. They also add optimization patches like a chunk loading system that can take advantage of multiple cpu threads or a setting that allows the server to tick less chunks than it actually sends to the player. See the [main optimization guide](https://github.com/YouHaveTrouble/minecraft-optimization) for more details.
+## Bukkit/Spigot niet meer draaien
+Bukkit en Spigot staan in principe in onderhoudsmodus. Ze updaten elke keer als er een nieuwe versie is en als er een kritieke exploit wordt gevonden, maar ze voegen geen prestatie-updates toe. Dit betekent dat eventuele prestatieproblemen die u ondervindt met deze software nooit zullen worden verbeterd. Om dat te vermijden, upgrade naar [Paper](https://papermc.io/downloads), [Tuinity](https://ci.codemc.io/job/Spottedleaf/job/Tuinity) of [Purpur](https://purpur.pl3x.net/downloads). Bukkit/Spigot plugins zullen net zo goed (misschien zelfs beter) werken met de server software die vermeld staat. Als ze dat niet doen, dan is het veilig om aan te nemen dat de plugin dev ofwel dingen doet die ze niet zouden moeten doen ofwel nalatig is geweest in het maken van hun plugin. Ze voegen ook optimalisatie patches toe zoals een chunk laadsysteem dat gebruik kan maken van meerdere CPU threads of een instelling die de server toestaat om minder chunks aan te vinken dan het daadwerkelijk naar de speler stuurt. Zie de [hoofd optimalisatie gids](https://github.com/YouHaveTrouble/minecraft-optimization) voor meer details.
 
-## Avoid shared hosting if possible
-Shared hosts are usually the cheapest option, and that's for a valid reason. They offer you 2 types of resources - guaranteed and shared. Guaranteed resources are usually laughably low and may not be enough to run a server for a few players. Shared resources on the other hand are usually enough to run a server with decent performance. There is a catch, though; shared resources, like the name implies, are shared between your server and other servers on the same physical machine. Your server can only benefit from having them when no other server uses them. The situation where your server fully utilises shared resources is pretty much impossible to happen, as most shared hosts oversell their resources. Like airplane tickets, the hosting site sells more resources than they have available in hopes that not all of them will be used. This often leads to situations where all servers are bogged down because there aren't enough resources to spare.
-
-## Avoid datapacks that use command functions
-Datapacks that run commands are extremely laggy. It may not be much with a few players on, but that doesn't scale well with the playercount and will lag your server pretty quickly as you gain players. Datapacks that modify biomes, loot tables, etc are fine. You're better off looking for a plugin alternative.
+## Vermijd datapacks die commando functies gebruiken
+Datapacks die commando's uitvoeren zijn extreem laggy. Het is misschien niet veel met een paar spelers op, maar dat schaalt niet goed met het aantal spelers en zal je server vrij snel vertragen als je meer spelers krijgt. Datapacks die biomes, buitentabellen, enz. veranderen zijn prima. Je bent beter af met het zoeken naar een plugin alternatief.
 
 ## Choosing hardware
-Don't just go off of how much RAM you need. You should instead focus on what kind of CPU you should use, since the CPU is the most important part of the server. You want something that [ranks good on single core performance](https://www.cpubenchmark.net/singleThread.html), as a server mainly runs on one thread. Multiple threads are utilised for quite some time now in systems like async chunk loading on paper, however.
+Ga niet alleen uit van hoeveel RAM je nodig hebt. Je moet je in plaats daarvan concentreren op wat voor soort CPU je zou moeten gebruiken, aangezien de CPU het belangrijkste onderdeel van de server is. Je wilt iets dat [goed scoort op single core prestaties](https://www.cpubenchmark.net/singleThread.html), aangezien een server voornamelijk draait op één thread. Meervoudige threads worden echter al geruime tijd gebruikt in systemen zoals async chunk loading op papier.
 
-You should absolutely avoid Hard Drives (HDDs). Their speeds are simply way too slow to justify running a server on them since minecraft is heavy on I/O operations (especially with high view distances and higher player counts). A Solid State drive (SSD) is a far better choice because of it's much faster I/O.
+Harde schijven (HDD's) moet je absoluut vermijden. Hun snelheden zijn gewoon veel te traag om het te rechtvaardigen om er een server op te draaien, aangezien Minecraft zwaar is op I/O operaties (vooral met hoge view afstanden en hogere speler aantallen). Een Solid State drive (SSD) is een veel betere keuze vanwege zijn veel snellere I/O.
 
 [`SOG`]: https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/
 [server.properties]: https://minecraft.fandom.com/Server.properties
