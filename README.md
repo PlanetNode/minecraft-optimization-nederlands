@@ -26,8 +26,9 @@ Aanbevolen top picks:
 * [Purpur](https://github.com/pl3xgaming/Purpur) – Airplane/Paper afgeleiden gericht op functies en de vrijheid van aanpassing.
 
 Je moet wegblijven van:
-* Yatopia & Sugarcane – "De gecombineerde kracht van Paper Forks voor maximale instabiliteit en niet onderhoudbaarheid!" - [KennyTV's lijst van schaamte](https://github.com/KennyTV/list-of-shame). Niets meer over te zeggen. (Bovendien is het project stopgezet).
-* Mohist – "Mohist is geprogrammeerd om kwaadaardig te zijn, spelbrekend, en zeer onstabiel!" - [Redenen waarom je het niet zou moeten gebruiken](https://essentialsx.net/do-not-use-mohist.html)
+* Yatopia - "De gecombineerde kracht van Paper forks voor maximale instabiliteit en unmaintainablity!" - [KennyTV's lijst van schaamte](https://github.com/KennyTV/list-of-shame). Niets meer over te zeggen. (Bovendien is het project stopgezet).
+* Sugarcane - Yatopia 2.0.
+* Mohist - "Mohist is geprogrammeerd om kwaadaardig, spel-brekend, en zeer onstabiel te zijn" - [Redenen waarom je het niet zou moeten gebruiken](https://essentialsx.net/do-not-use-mohist.html)
 * Elke betaalde server JAR die async claimt - 99.99% kans dat het oplichterij is.
 * Bukkit/CraftBukkit/Spigot – Extreem verouderd in termen van performance vergeleken met andere server software waar je toegang tot hebt.
 * Elke plugin/software die plugins inschakelt/uitschakelt/laadt op runtime. Zie [deze sectie](#plugins-enablingdisabling-other-plugins) om te begrijpen waarom.
@@ -378,6 +379,30 @@ Goede start waarden:
       enabled: true
       items:
           COBBLESTONE: 300
+          NETHERRACK: 300
+          SAND: 300
+          RED_SAND: 300
+          GRAVEL: 300
+          DIRT: 300
+          GRASS: 300
+          PUMPKIN: 300
+          MELON_SLICE: 300
+          KELP: 300
+          BAMBOO: 300
+          SUGAR_CANE: 300
+          TWISTING_VINES: 300
+          WEEPING_VINES: 300
+          OAK_LEAVES: 300
+          SPRUCE_LEAVES: 300
+          BIRCH_LEAVES: 300
+          JUNGLE_LEAVES: 300
+          ACACIA_LEAVES: 300
+          DARK_OAK_LEAVES: 300
+          CACTUS: 300
+          DIORITE: 300
+          GRANITE: 300
+          ANDESITE: 300
+          SCAFFOLDING: 600
 ```
 
 Met deze lijst kun je een alternatieve tijd instellen (in ticks) om bepaalde soorten gedropte items sneller of langzamer te laten verdwijnen dan standaard. Deze optie kan gebruikt worden in plaats van item clearing plugins samen met `merge-radius` om de performance te verbeteren.
